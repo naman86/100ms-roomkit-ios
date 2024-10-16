@@ -52,6 +52,7 @@ struct HMSTopControlStrip: View {
             Spacer()
             if showCallControls {
                 HStack(spacing: 16) {
+                    HMSSwitchLayoutButton()
                     HMSSwitchCameraButton()
                     HMSAirplayButton {
                         HMSSpeakerButtonView()

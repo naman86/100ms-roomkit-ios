@@ -13,6 +13,7 @@ import HMSRoomModels
 struct HMSLeaveCallView: View {
     
     @EnvironmentObject var roomModel: HMSRoomModel
+    @EnvironmentObject var currentTheme: HMSUITheme
     
     @Environment(\.dismiss) var dismiss
     
@@ -29,7 +30,7 @@ struct HMSLeaveCallView: View {
                         .frame(width: 24, height: 24)
                         .foreground(.errorDefault)
                     
-                    Text("Leave Session")
+                    Text(currentTheme.localized.string(.leaveSession))
                         .font(.heading6Semibold20)
                         .foreground(.errorDefault)
                     
@@ -42,13 +43,13 @@ struct HMSLeaveCallView: View {
                         }
                 }
                 
-                Text("Others will continue after you leave. You can join the session again.")
+                Text(currentTheme.localized.string(.leaveSessionMessage))
                     .fixedSize(horizontal: false, vertical: true)
                     .font(.body2Regular14)
                     .foreground(.onSurfaceMedium)
             }
             
-            Text("Leave Session")
+            Text(currentTheme.localized.string(.leaveSession))
                 .font(.heading6Semibold20)
                 .foreground(.errorBrighter)
                 .frame(maxWidth: .infinity)

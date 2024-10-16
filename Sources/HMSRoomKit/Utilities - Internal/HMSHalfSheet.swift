@@ -70,6 +70,8 @@ struct HMSSheet_Previews: PreviewProvider {
 
 private struct HalfSheet<Content>: UIViewControllerRepresentable where Content : View {
     
+    static var backgroundColor: UIColor { UIColor(red: 17/255, green: 19/255, blue: 26/255, alpha: 1.0) }
+    
     private let content: Content
     var height: CGFloat
     
@@ -80,13 +82,16 @@ private struct HalfSheet<Content>: UIViewControllerRepresentable where Content :
     
     func makeUIViewController(context: Context) -> HalfSheetController<Content> {
         let sheet = HalfSheetController(rootView: content)
+        sheet.overrideUserInterfaceStyle = .dark
         sheet.height = height
+        sheet.view.backgroundColor = Self.backgroundColor
         updateIndent(sheet)
         return sheet
     }
     
     func updateUIViewController(_ uiViewController: HalfSheetController<Content>, context: Context) {
         uiViewController.height = height
+        uiViewController.view.backgroundColor = Self.backgroundColor
         updateIndent(uiViewController)
     }
     
@@ -100,6 +105,7 @@ private struct HalfSheet<Content>: UIViewControllerRepresentable where Content :
                 // Fallback on earlier versions
                 presentation.detents = [.medium(), .large()]
             }
+            presentation.containerView?.overrideUserInterfaceStyle = .dark
             presentation.prefersGrabberVisible = true
             presentation.largestUndimmedDetentIdentifier = .medium
         }

@@ -35,10 +35,12 @@ public struct HMSEndCallScreen: View {
                     .padding()
                     .onTapGesture {
                         // dismiss if we are running as sheet
-                        onDismiss?()
-                        
-                        // reset room state if not dismissed
-                        roomModel.roomState = .notJoined
+                        if let onDismiss {
+                            onDismiss()
+                        } else {
+                            // reset room state if not dismissed
+                            roomModel.roomState = .notJoined
+                        }
                     }
             }
             

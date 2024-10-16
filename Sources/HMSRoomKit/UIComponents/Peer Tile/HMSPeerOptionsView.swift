@@ -124,7 +124,7 @@ struct HMSOptionsHeaderView: View {
     var title: String
     var subtitle: String?
     var showsBackButton: Bool = false
-    var showsDivider: Bool = true
+    var showsDivider: Bool = false
     var onClose: (() -> Void)?
     var onBack: (() -> Void)?
     

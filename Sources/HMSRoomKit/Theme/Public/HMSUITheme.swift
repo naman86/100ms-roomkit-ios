@@ -13,11 +13,13 @@ import HMSSDK
 public class HMSUITheme: ObservableObject {
     public var fontTheme: HMSUIFontTheme
     public var colorTheme: HMSUIColorTheme
+    public var localized: HMSUIStrings
     public var logoURL: URL?
     
-    public init(fontTheme: HMSUIFontTheme = HMSUIFontTheme(), colorTheme: HMSUIColorTheme = HMSUIColorTheme(), logoURL: URL? = nil) {
+    public init(fontTheme: HMSUIFontTheme = HMSUIFontTheme(), colorTheme: HMSUIColorTheme = HMSUIColorTheme(), localized: HMSUIStrings = HMSUIStrings(), logoURL: URL? = nil) {
         self.fontTheme = fontTheme
         self.colorTheme = colorTheme
+        self.localized = localized
         self.logoURL = logoURL
     }
 }

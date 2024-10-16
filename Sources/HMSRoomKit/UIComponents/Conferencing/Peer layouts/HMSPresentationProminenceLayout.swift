@@ -118,7 +118,7 @@ struct HMSPresentationProminenceLayout: View {
     @ViewBuilder
     var tilesView: some View {
         
-        let isInsetMode = conferenceComponentParam.tileLayout?.grid.isLocalTileInsetEnabled ?? false
+        let isInsetMode = roomModel.isLocalTileInset
         let visiblePeers = roomModel.visiblePeersInLayout(isUsingInset: isInsetMode)
         let screenSharingPeers = roomModel.peersSharingScreen.filter{!$0.isLocal}
         

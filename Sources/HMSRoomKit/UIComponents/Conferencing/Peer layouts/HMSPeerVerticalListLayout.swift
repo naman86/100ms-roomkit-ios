@@ -24,7 +24,7 @@ public struct HMSPeerVerticalListLayout: View {
     
     public var body: some View {
         
-        let isInsetMode = conferenceComponentParam.tileLayout?.grid.isLocalTileInsetEnabled ?? false
+        let isInsetMode = roomModel.isLocalTileInset
         let visiblePeers = roomModel.visiblePeersInLayout(isUsingInset: isInsetMode)
         
         if verticalSizeClass == .regular {

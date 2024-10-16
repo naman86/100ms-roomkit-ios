@@ -26,7 +26,7 @@ public struct HMSPeerLayout: View {
     
     public var body: some View {
         
-        let isInsetMode = conferenceComponentParam.tileLayout?.grid.isLocalTileInsetEnabled ?? false
+        let isInsetMode = roomModel.isLocalTileInset
         let prominentRoles = conferenceComponentParam.tileLayout?.grid.prominentRoles ?? []
 #if !Preview
         let prominentPeers: [HMSPeerModel] = roomModel.visiblePeersInLayout(isUsingInset: isInsetMode).filter(withRoles: prominentRoles)
