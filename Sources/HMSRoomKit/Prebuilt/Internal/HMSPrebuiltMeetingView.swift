@@ -81,12 +81,8 @@ struct HMSPrebuiltMeetingView: View {
         }
         #endif
         .onAppear() {
-            print("on appear of prebuild meeting view")
             UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(currentTheme.colorTheme.colorForToken(.onSurfaceHigh))
             UIPageControl.appearance().pageIndicatorTintColor = UIColor(currentTheme.colorTheme.colorForToken(.onSurfaceLow))
-        }
-        .onDisappear {
-            print("on disappear of prebuild meeting view")
         }
     }
 }
