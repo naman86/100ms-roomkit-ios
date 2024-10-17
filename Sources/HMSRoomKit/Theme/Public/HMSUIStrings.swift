@@ -16,7 +16,6 @@ public class HMSUIStrings: ObservableObject {
     @Published public var you: String = "You"
     @Published public var someone: String = "Someone"
     @Published public var live: String = "LIVE"
-    
     @Published public var youLeftSession: String = "You left the session"
     @Published public var leftByMistake: String = "Left by mistake?"
     @Published public var rejoin: String = "Rejoin"
@@ -43,7 +42,6 @@ public class HMSUIStrings: ObservableObject {
     
     @Published public var volume: String = "Volume"
     @Published public var cancel: String = "Cancel"
-    @Published public var screen: String = "Screen"
     
     @Published public var streamEnded: String = "Stream ended"
     @Published public var streamYetToStart: String = "Stream yet to start"
@@ -68,11 +66,10 @@ public class HMSUIStrings: ObservableObject {
     @Published public var joinNow: String = "Join Now"
     @Published public var decline: String = "Decline"
     @Published public var switchRole: String = "Switch Role"
+    @Published public var removeParticipant: String = "Remove Participant"
     
     @Published public var joinStageMessage: String = "You’re invited to join the stage"
     @Published public var setupAudioVideoMessage: String = "Setup your audio and video before joining"
-    
-    @Published public var removeParticipant: String = "Remove Participant"
     
     @Published public var minimizeYourTile: String = "Minimize Your Tile"
     @Published public var unpinTile: String = "Unpin tile for myself"
@@ -83,6 +80,7 @@ public class HMSUIStrings: ObservableObject {
     @Published public var startingLiveStream: String = "Starting live stream..."
     @Published public var raisedHand: String = "raised hand"
     
+    @Published public var screen: String = "Screen"
     @Published public var youAreSharingScreen: String = "You are sharing your screen"
     @Published public var stopScreenshare: String = "Stop Screenshare"
     
@@ -92,5 +90,4 @@ public class HMSUIStrings: ObservableObject {
     
     @Published public var poorConnection: String = "Poor connection"
     @Published public var videoResumeWhenConnectionImproves: String = "The video will resume automatically when the connection improves"
-    
 }
