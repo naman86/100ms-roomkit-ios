@@ -11,6 +11,7 @@ import HMSSDK
 import HMSRoomModels
 
 struct HMSPeerVolumeOptionView: View {
+    @EnvironmentObject var currentTheme: HMSUITheme
     @ObservedObject var regularAudioTrackModel: HMSTrackModel
     @State private var renderVolume: Double = 1.0
     
@@ -23,7 +24,7 @@ struct HMSPeerVolumeOptionView: View {
                         .resizable()
                         .frame(width: 20, height: 20)
 
-                    Text("Volume")
+                    Text(currentTheme.localized.volume)
                 }
                 Slider(value: $renderVolume, in: 0.01...1) { _ in
                     // Empty closure, as we only want to read the value of the slider

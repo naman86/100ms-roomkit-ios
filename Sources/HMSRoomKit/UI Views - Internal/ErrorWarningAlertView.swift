@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ErrorWarningAlertView: View {
     
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     let errorText: String
     let onDismiss: ()->Void
 
@@ -25,7 +27,7 @@ struct ErrorWarningAlertView: View {
             }
             
             VStack(alignment: .leading) {
-                Text("Error occurred")
+                Text(currentTheme.localized.errorTitle)
                     .font(.subtitle2Semibold14)
                     .foreground(.onSurfaceHigh)
                 

@@ -12,6 +12,7 @@ import HMSRoomModels
 
 public struct HMSPeerVideoTrackView: View {
     
+    @EnvironmentObject var currentTheme: HMSUITheme
     @ObservedObject public var trackModel: HMSTrackModel
     
     public var contentMode: UIView.ContentMode = .scaleAspectFill
@@ -42,11 +43,11 @@ public struct HMSPeerVideoTrackView: View {
                 .environment(\.colorScheme, .dark)
                 .overlay {
                     VStack(spacing: 4) {
-                        Text("Poor connection")
+                        Text(currentTheme.localized.poorConnection)
                             .foreground(.onSurfaceHigh)
                             .multilineTextAlignment(.center)
                             .font(.subtitle2Semibold14)
-                        Text("The video will resume automatically when the connection improves")
+                        Text(currentTheme.localized.videoResumeWhenConnectionImproves)
                             .multilineTextAlignment(.center)
                             .font(.captionRegular12)
                             .foreground(.onSurfaceHigh)

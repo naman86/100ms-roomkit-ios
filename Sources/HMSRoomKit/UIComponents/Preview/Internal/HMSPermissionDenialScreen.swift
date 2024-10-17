@@ -39,6 +39,9 @@ public struct AccessibilityCheckMod: ViewModifier {
 }
 
 struct HMSPermissionDenialScreen: View {
+    
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     var body: some View {
         
         VStack(spacing: 16) {
@@ -47,16 +50,16 @@ struct HMSPermissionDenialScreen: View {
             
             Image(assetName: "permission-lock-icon", renderingMode: .original)
             
-            Text("Enable permissions")
+            Text(currentTheme.localized.enablePermissions)
                 .font(.heading5Semibold24)
             
-            Text("Sharing your camera and microphone permissions helps us give you the optimal experience")
+            Text(currentTheme.localized.enablePermissionsMessage)
                 .font(.body2Regular14)
                 .multilineTextAlignment(.center)
             
             Spacer()
             
-            Text("Grant Permissions")
+            Text(currentTheme.localized.enablePermissions)
                 .font(.buttonSemibold16)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical)
@@ -68,7 +71,7 @@ struct HMSPermissionDenialScreen: View {
         }
         .padding(.horizontal)
         .background(.backgroundDim, cornerRadius: 0, ignoringEdges: .all)
-        // PAWANTODO: change this once design has color token
+        // TODO: change this once design has color token
         .foreground(.onPrimaryHigh)
     }
 }

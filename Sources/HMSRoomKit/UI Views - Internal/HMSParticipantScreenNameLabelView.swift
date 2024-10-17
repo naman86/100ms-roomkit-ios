@@ -10,13 +10,15 @@ import SwiftUI
 
 struct HMSParticipantScreenNameLabelView: View {
     
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     let name: String
     
     var body: some View {
         if name.count > 0 {
             HStack {
                 Image(assetName: "screenshare-icon")
-                Text("\(name)'s Screen")
+                Text("\(name)'s \(currentTheme.localized.screen)")
             }
             .font(.body2Regular14)
             .foreground(.onSurfaceHigh)

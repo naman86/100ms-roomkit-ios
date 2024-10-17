@@ -134,7 +134,7 @@ public struct HMSDefaultConferenceScreen: View {
                     VStack(spacing: 29) {
                         Spacer(minLength: 0)
                         HMSLoadingScreen()
-                        Text("Starting live stream...")
+                        Text(currentTheme.localized.startingLiveStream)
                             .font(.body1Regular16)
                             .foreground(.onSurfaceHigh)
                         Spacer(minLength: 0)
@@ -174,7 +174,8 @@ public struct HMSDefaultConferenceScreen: View {
             for newPeer in newPeersWhoHaveRaisedHands {
                 guard let role = newPeer.role?.name else { continue }
                 
-                let notification = HMSRoomKitNotification(id: newPeer.id, type: .handRaised(canBringOnStage: rolesWhoCanComeOnStage.contains(role)), actor: newPeer.name, isDismissible: true, title: "\(newPeer.name) raised hand")
+                let title = newPeer.name + " " + currentTheme.localized.raisedHand
+                let notification = HMSRoomKitNotification(id: newPeer.id, type: .handRaised(canBringOnStage: rolesWhoCanComeOnStage.contains(role)), actor: newPeer.name, isDismissible: true, title: title)
                 roomKitModel.addNotification(notification)
             }
         }
@@ -184,7 +185,7 @@ public struct HMSDefaultConferenceScreen: View {
         }
         .onChange(of: roomModel.peersSharingScreen.filter{$0.isLocal}) { peers in
             if let localPeer = peers.first {
-                let notification = HMSRoomKitNotification(id: localPeer.id, type: .screenShare, actor: localPeer.name, isDismissible: false, title: "You are sharing your screen")
+                let notification = HMSRoomKitNotification(id: localPeer.id, type: .screenShare, actor: localPeer.name, isDismissible: false, title: currentTheme.localized.youAreSharingScreen)
                 roomKitModel.addNotification(notification)
             }
             else {
@@ -193,7 +194,7 @@ public struct HMSDefaultConferenceScreen: View {
         }
         .onChange(of: roomModel.isReconnecting) { isReconnecting in
             if isReconnecting {
-                let notification = HMSRoomKitNotification(id: "isReconnecting", type: .info(icon: "loading-record"), actor: "isReconnecting", isDismissible: false, title: "You have lost your network connection. Trying to reconnect.")
+                let notification = HMSRoomKitNotification(id: "isReconnecting", type: .info(icon: "loading-record"), actor: "isReconnecting", isDismissible: false, title: currentTheme.localized.lostInternetConnectReconnecting)
                 roomKitModel.addNotification(notification)
             }
             else {
@@ -202,7 +203,7 @@ public struct HMSDefaultConferenceScreen: View {
         }
         .onChange(of: roomModel.recordingState) { recordingState in
             if recordingState == .failed {
-                let notification = HMSRoomKitNotification(id: "RecordingFailed", type: .error(icon: "recording-failed-icon", retry: true, isTerminal: false), actor: "RecordingFailed", isDismissible: true, title: "Recording failed to start")
+                let notification = HMSRoomKitNotification(id: "RecordingFailed", type: .error(icon: "recording-failed-icon", retry: true, isTerminal: false), actor: "RecordingFailed", isDismissible: true, title: currentTheme.localized.recordingFailedToStart)
                 roomKitModel.addNotification(notification)
             }
             else {
@@ -223,7 +224,7 @@ public struct HMSDefaultConferenceScreen: View {
             let newErrors = hmsErrors.filter{!previousErrorIds.contains("\($0.hashValue)")}
             
             for error in newErrors {
-                let notification = HMSRoomKitNotification(id: String(error.hashValue), type: .error(icon: "warning-icon", retry: error.canRetry, isTerminal: error.isTerminal), actor: String(error.hashValue), isDismissible: false, title: "An error occurred \(error.localizedDescription)")
+                let notification = HMSRoomKitNotification(id: String(error.hashValue), type: .error(icon: "warning-icon", retry: error.canRetry, isTerminal: error.isTerminal), actor: String(error.hashValue), isDismissible: false, title: "\(currentTheme.localized.errorTitle) \(error.localizedDescription)")
                 roomKitModel.addNotification(notification)
             }
         }
@@ -231,7 +232,9 @@ public struct HMSDefaultConferenceScreen: View {
             let existingIDs = Set(roomKitModel.notifications.filter { $0.type == .declineRoleChange }.map { $0.id } )
             roomModel.serviceMessages.filter { !existingIDs.contains($0.messageID) && $0.type == HMSRoomModel.roleChangeDeclinedNotificationType }
                 .forEach {
-                    let notification = HMSRoomKitNotification(id: $0.messageID, type: .declineRoleChange, actor: $0.sender?.name ?? "Someone", isDismissible: true, title: "\($0.sender?.name ?? "Someone") declined the request to join the stage")
+                    let name = $0.sender?.name ?? currentTheme.localized.someone
+                    let title = name + " " + currentTheme.localized.declineToJoinStage
+                    let notification = HMSRoomKitNotification(id: $0.messageID, type: .declineRoleChange, actor: name, isDismissible: true, title: title)
                     roomKitModel.addNotification(notification)
                 }
         }

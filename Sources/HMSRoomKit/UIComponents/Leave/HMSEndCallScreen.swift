@@ -12,6 +12,7 @@ import HMSRoomModels
 
 public struct HMSEndCallScreen: View {
     
+    @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
 
@@ -55,11 +56,11 @@ public struct HMSEndCallScreen: View {
                         .frame(width: 64, height: 64)
                     
                     VStack(spacing: 8) {
-                        Text("You left the meeting")
+                        Text(currentTheme.localized.youLeftSession)
                             .font(.heading5Semibold24)
                             .foreground(.onSurfaceHigh)
                         
-                        Text("Have a nice day!")
+                        Text(currentTheme.localized.sessionEndedMessage)
                             .font(.body1Regular16)
                             .foreground(.onSurfaceMedium)
                     }
@@ -69,14 +70,14 @@ public struct HMSEndCallScreen: View {
                     switch reason {
                     case .userLeft, .removedFromRoom, .leftPreview:
                         VStack(spacing: 16) {
-                            Text("Left by mistake?")
+                            Text(currentTheme.localized.leftByMistake)
                                 .font(.body2Regular14)
                                 .foreground(.onSurfaceMedium)
                             
                             HStack {
                                 Image(assetName: "join-icon")
                                     .font(.buttonSemibold16)
-                                Text("Rejoin")
+                                Text(currentTheme.localized.rejoin)
                                     .font(.buttonSemibold16)
                             }
                             .foreground(.onPrimaryHigh)
@@ -108,12 +109,12 @@ public struct HMSEndCallScreen: View {
                                     Image(assetName: "user-music")
                                         .renderingMode(.original)
                                     
-                                    Text("Thank you for your feedback!")
+                                    Text(currentTheme.localized.feedbackThakYou)
                                         .font(.heading6Semibold20)
                                         .foreground(.onSurfaceHigh)
                                         .frame(maxWidth: .infinity)
                                     
-                                    Text("Your answers help us improve.")
+                                    Text(currentTheme.localized.feedbackMessage)
                                         .font(.body2Regular14)
                                         .foreground(.onSurfaceMedium)
                                 }

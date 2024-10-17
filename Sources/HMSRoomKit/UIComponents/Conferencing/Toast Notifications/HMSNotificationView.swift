@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct HMSNotificationView: View {
+    
+    @EnvironmentObject var currentTheme: HMSUITheme
     @Environment(\.conferenceParams) var conferenceComponentParam
     
     let notification: HMSRoomKitNotification
@@ -107,14 +109,14 @@ struct HMSNotificationView: View {
                             .padding(8)
                             .background(.secondaryDefault, cornerRadius: 8)
                     case .viewBringOnStageParticipants:
-                        Text("View")
+                        Text(currentTheme.localized.view)
                             .fixedSize(horizontal: true, vertical: false)
                             .font(.body2Semibold14)
                             .foreground(.onSecondaryHigh)
                             .padding(8)
                             .background(.secondaryDefault, cornerRadius: 8)
                     case .retry:
-                        Text("Retry")
+                        Text(currentTheme.localized.retry)
                             .fixedSize(horizontal: true, vertical: false)
                             .font(.body2Semibold14)
                             .foreground(.onSecondaryHigh)
@@ -122,7 +124,7 @@ struct HMSNotificationView: View {
                             .background(.secondaryDefault, cornerRadius: 8)
                     case .stopScreenShare:
                         HMSShareScreenButton {
-                            Text("Stop")
+                            Text(currentTheme.localized.stop)
                                 .fixedSize(horizontal: true, vertical: false)
                                 .font(.body2Semibold14)
                                 .foreground(.errorBrighter)
@@ -131,7 +133,7 @@ struct HMSNotificationView: View {
                                 .background(.errorDefault, cornerRadius: 8)
                         }
                     case .endCall:
-                        Text("End Call")
+                        Text(currentTheme.localized.endSession)
                             .fixedSize(horizontal: true, vertical: false)
                             .font(.body2Semibold14)
                             .foreground(.errorBrighter)
@@ -139,7 +141,7 @@ struct HMSNotificationView: View {
                             .padding(.horizontal, 16)
                             .background(.errorDefault, cornerRadius: 8)
                     case .vote(let type):
-                        Text(type == .poll ? "Vote" : "Answer")
+                        Text(type == .poll ? currentTheme.localized.vote : currentTheme.localized.answer)
                         .fixedSize(horizontal: true, vertical: false)
                         .font(.body2Semibold14)
                         .foreground(.onSecondaryHigh)

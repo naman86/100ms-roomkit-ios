@@ -10,6 +10,8 @@ import SwiftUI
 
 struct HMSNoStreamView: View {
     
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     enum State {
         case streamEnded, streamYetToStart
     }
@@ -33,19 +35,19 @@ struct HMSNoStreamView: View {
                 VStack(spacing: 8) {
                     switch state {
                     case .streamEnded:
-                        Text("Stream ended")
+                        Text(currentTheme.localized.streamEnded)
                             .font(.heading5Semibold24)
                             .foreground(.onSurfaceHigh)
                         
-                        Text("Have a nice day!")
+                        Text(currentTheme.localized.sessionEndedMessage)
                             .font(.body1Regular16)
                             .foreground(.onSurfaceMedium)
                     case .streamYetToStart:
-                        Text("Stream yet to start")
+                        Text(currentTheme.localized.streamYetToStart)
                             .font(.heading5Semibold24)
                             .foreground(.onSurfaceHigh)
                         
-                        Text("Sit back and relax")
+                        Text(currentTheme.localized.sesionYetToStartMessage)
                             .font(.body1Regular16)
                             .foreground(.onSurfaceMedium)
                     }

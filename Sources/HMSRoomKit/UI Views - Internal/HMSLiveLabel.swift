@@ -10,6 +10,8 @@ import SwiftUI
 
 struct HMSLiveLabel: View {
     
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     var showsCircle = true
     
     var body: some View {
@@ -19,7 +21,7 @@ struct HMSLiveLabel: View {
                     .frame(width: 13, height: 13)
                     .foreground(.errorBrighter)
             }
-            Text("LIVE")
+            Text(currentTheme.localized.live)
                 .font(.body2Semibold14)
                 .foreground(.errorBrighter)
         }

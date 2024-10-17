@@ -20,6 +20,7 @@ public struct HMSPeerLayout: View {
     @Environment(\.tabPageBarState) var tabPageBarState
     
     @EnvironmentObject var roomModel: HMSRoomModel
+    @EnvironmentObject var currentTheme: HMSUITheme
     
     @AppStorage("isInsetMinimized") var isInsetMinimized: Bool = false
     @State var shouldInsetRefresh = false
@@ -53,11 +54,11 @@ public struct HMSPeerLayout: View {
                             .frame(width: 64, height: 64)
                         
                         VStack(spacing: 8) {
-                            Text("Welcome!")
+                            Text(currentTheme.localized.welcome)
                                 .font(.heading5Semibold24)
                                 .foreground(.onSurfaceHigh)
                             
-                            Text("Sit back and relax.")
+                            Text(currentTheme.localized.sesionYetToStartMessage)
                                 .font(.body1Regular16)
                                 .foreground(.onSurfaceMedium)
                         }

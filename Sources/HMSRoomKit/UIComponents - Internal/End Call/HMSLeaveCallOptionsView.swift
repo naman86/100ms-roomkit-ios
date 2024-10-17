@@ -37,11 +37,11 @@ struct HMSLeaveCallOptionsView: View {
                     .frame(width: 24, height: 24)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Leave")
+                    Text(currentTheme.localized.leave)
                         .foreground(.onSurfaceHigh)
                         .font(.heading6Semibold20)
                     
-                    Text("Others will continue after you leave. You can join the session again.")
+                    Text(currentTheme.localized.leaveSessionMessage)
                         .fixedSize(horizontal: false, vertical: true)
                         .font(.body2Regular14)
                         .foreground(.onSurfaceLow)
@@ -60,12 +60,12 @@ struct HMSLeaveCallOptionsView: View {
                     .foreground(.errorBrighter)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(isBeingStreamed ? "End Session" : "End for All")
+                    Text(currentTheme.localized.endSession)
                         .font(.heading6Semibold20)
                         .foreground(.errorBrighter)
                     
                     
-                    Text(isBeingStreamed ? "The session and stream will end for everyone. You can’t undo this action." : "The session will end for everyone. You can’t undo this action.")
+                    Text(isBeingStreamed ? currentTheme.localized.endSessionMessageStreamPresented : currentTheme.localized.endSessionMessageStreamNotPresented)
                         .fixedSize(horizontal: false, vertical: true)
                         .font(.body2Regular14)
                         .foreground(.errorBright)

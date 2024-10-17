@@ -12,6 +12,7 @@ import HMSRoomModels
 
 struct HMSMinimizedInsetTile: View {
     
+    @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var roomModel: HMSRoomModel
     @Binding var isInsetMinimized: Bool
     
@@ -33,7 +34,7 @@ struct HMSMinimizedInsetTile: View {
                         .background(.surfaceBright, cornerRadius: 4)
                 }
                 
-                Text("You")
+                Text(currentTheme.localized.you)
                     .font(.body2Regular14)
             }
 

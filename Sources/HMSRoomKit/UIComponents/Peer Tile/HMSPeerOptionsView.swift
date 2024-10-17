@@ -177,6 +177,7 @@ struct HMSPeerOptionsView: View {
     
     @Environment(\.conferenceParams) var conferenceComponentParam
     
+    @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var peerModel: HMSPeerModel
     
@@ -194,7 +195,7 @@ struct HMSPeerOptionsView: View {
         let onStageRoleName = onStageExperience?.onStageRoleName ?? ""
         
         VStack(alignment: .leading, spacing: 0) {
-            HMSOptionsHeaderView(title: peerModel.name + (peerModel.isLocal ? " (You)" : ""), subtitle: peerModel.role?.name, onClose: {
+            HMSOptionsHeaderView(title: peerModel.name + (peerModel.isLocal ? " (\(currentTheme.localized.you))" : ""), subtitle: peerModel.role?.name, onClose: {
                 context.isPresented = false
             })
             VStack(alignment: .leading, spacing: 8) {
@@ -203,7 +204,7 @@ struct HMSPeerOptionsView: View {
                     case .changeName:
                         HStack {
                             Image(assetName: "pencil")
-                            Text("Change Name")
+                            Text(currentTheme.localized.changeName)
                             Spacer(minLength: 0)
                         }
                         .padding(.vertical, 16)
@@ -237,7 +238,7 @@ struct HMSPeerOptionsView: View {
                     case .removeParticipant:
                         HStack {
                             Image(assetName: "peer-remove")
-                            Text("Remove Participant").font(.subtitle2Semibold14)
+                            Text(currentTheme.localized.removeParticipant).font(.subtitle2Semibold14)
                             Spacer(minLength: 0)
                         }
                         .foreground(.errorDefault)
@@ -253,7 +254,7 @@ struct HMSPeerOptionsView: View {
                     case .switchRole:
                         HStack {
                             Image(assetName: "user-gear")
-                            Text("Switch Role").font(.subtitle2Semibold14)
+                            Text(currentTheme.localized.switchRole).font(.subtitle2Semibold14)
                             Spacer(minLength: 0)
                         }
                         .padding(.vertical, 16)
@@ -265,7 +266,7 @@ struct HMSPeerOptionsView: View {
                     case .minimizeTile:
                         HStack {
                             Image(assetName: "minimize-icon").padding(.horizontal, 3)
-                            Text("Minimize Your Tile")
+                            Text(currentTheme.localized.minimizeYourTile)
                             Spacer(minLength: 0)
                         }
                         .padding(.vertical, 16)
@@ -316,7 +317,7 @@ struct HMSPeerOptionsView: View {
                     case .pin(let peer):
                         HStack {
                             Image(assetName: "pin")
-                            Text(roomModel.pinnedPeers.contains(peer) ? "Unpin tile for myself" : "Pin tile for myself")
+                            Text(roomModel.pinnedPeers.contains(peer) ? currentTheme.localized.unpinTile : currentTheme.localized.pinTile)
                             Spacer(minLength: 0)
                         }
                         .padding(.vertical, 16)
@@ -335,7 +336,7 @@ struct HMSPeerOptionsView: View {
                         if isSpotlightEnabled {
                             HStack {
                                 Image(assetName: "star")
-                                Text(roomModel.spotlightedPeer == peer ? "Remove from spotlight for Everyone" : "Spotlight Tile for Everyone")
+                                Text(roomModel.spotlightedPeer == peer ? currentTheme.localized.spotlightTileRemove : currentTheme.localized.spotlightTileAdd)
                                 Spacer(minLength: 0)
                             }
                             .padding(.vertical, 16)

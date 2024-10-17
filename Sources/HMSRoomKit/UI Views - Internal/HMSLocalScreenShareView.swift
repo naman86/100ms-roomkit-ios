@@ -9,20 +9,23 @@
 import SwiftUI
 
 struct HMSLocalScreenShareView: View {
+    
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     var body: some View {
         GeometryReader { proxy in
             VStack {
                 
                 Group {
                     Image(assetName: "screen-share-icon-big")
-                    Text("You are sharing your screen")
+                    Text(currentTheme.localized.youAreSharingScreen)
                         .font(.heading6Semibold20)
                 }
                 .foreground(.onSurfaceHigh)
                 
                 HStack {
                     Image(systemName: "xmark")
-                    Text("Stop Screenshare")
+                    Text(currentTheme.localized.stopScreenshare)
                 }
                 .font(.buttonSemibold16)
                 .foreground(.errorBrighter)

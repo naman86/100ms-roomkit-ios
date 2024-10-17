@@ -12,6 +12,7 @@ import HMSRoomModels
 
 struct HMSEndCallView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
+    @EnvironmentObject var currentTheme: HMSUITheme
     
     @Environment(\.dismiss) var dismiss
     
@@ -28,7 +29,7 @@ struct HMSEndCallView: View {
                         .frame(width: 24, height: 24)
                         .foreground(.errorDefault)
                     
-                    Text("End Session")
+                    Text(currentTheme.localized.endSession)
                         .font(.heading6Semibold20)
                         .foreground(.errorDefault)
                     
@@ -41,13 +42,13 @@ struct HMSEndCallView: View {
                         }
                 }
                 
-                Text(isBeingStreamed ? "The session will end for everyone and all the activities, including the stream will stop. You can’t undo this action." : "The session will end for everyone and all the activities will stop. You can’t undo this action.")
+                Text(isBeingStreamed ? currentTheme.localized.endSessionMessageStreamPresented : currentTheme.localized.endSessionMessageStreamNotPresented)
                     .fixedSize(horizontal: false, vertical: true)
                     .font(.body2Regular14)
                     .foreground(.onSurfaceMedium)
             }
             
-            Text("End Session")
+            Text(currentTheme.localized.endSession)
                 .font(.heading6Semibold20)
                 .foreground(.errorBrighter)
                 .frame(maxWidth: .infinity)

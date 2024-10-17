@@ -20,11 +20,11 @@ struct HMSChangeNameView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HMSOptionsHeaderView(title: "Change name") {
+            HMSOptionsHeaderView(title: currentTheme.localized.changeName) {
                 presentationMode.wrappedValue.dismiss()
             } onBack: {}
             VStack(spacing: 16) {
-                TextField("Enter Name...", text: $name, prompt: Text("Enter Name...").foregroundColor(currentTheme.colorTheme.onSurfaceLow))
+                TextField(currentTheme.localized.enterName, text: $name, prompt: Text(currentTheme.localized.enterName).foregroundColor(currentTheme.colorTheme.onSurfaceLow))
                     .font(.body1Regular16)
                     .foreground(.onSurfaceHigh)
                     .padding()
@@ -33,7 +33,7 @@ struct HMSChangeNameView: View {
                     .onChange(of: name) { newValue in
                         isValid = !newValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                     }
-                Text("Change")
+                Text(currentTheme.localized.change)
                     .font(.body1Semibold16)
                     .foreground(isValid ? .onPrimaryHigh : .onPrimaryLow)
                     .padding(.vertical, 12)

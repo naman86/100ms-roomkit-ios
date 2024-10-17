@@ -9,8 +9,10 @@
 import SwiftUI
 
 struct HMSCancelButton: View {
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     var body: some View {
-        Text("Cancel")
+        Text(currentTheme.localized.cancel)
             .foreground(.errorBrighter)
             .font(.buttonSemibold16)
             .frame(width: 103, height: 48)

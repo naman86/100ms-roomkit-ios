@@ -19,10 +19,10 @@ struct HMSPreviewRoleBottomOverlay: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
-                Text("You’re invited to join the stage")
+                Text(currentTheme.localized.joinStageMessage)
                     .font(.heading6Semibold20)
                     .foreground(.onSurfaceHigh)
-                Text("Setup your audio and video before joining")
+                Text(currentTheme.localized.setupAudioVideoMessage)
                     .font(.body2Regular14)
                     .foreground(.onSurfaceMedium)
             }
@@ -44,7 +44,7 @@ struct HMSPreviewRoleBottomOverlay: View {
             }
 
             VStack(spacing: 16) {
-                Text("Join Now")
+                Text(currentTheme.localized.joinNow)
                     .font(.body1Semibold16)
                     .foreground(.onPrimaryHigh)
                     .padding(.vertical, 12)
@@ -56,7 +56,7 @@ struct HMSPreviewRoleBottomOverlay: View {
                             try await roomModel.acceptChangeRoleRequest()
                         }
                     }
-                Text("Decline")
+                Text(currentTheme.localized.decline)
                     .font(.body1Semibold16)
                     .foreground(.onSurfaceHigh)
                     .padding(.vertical, 12)

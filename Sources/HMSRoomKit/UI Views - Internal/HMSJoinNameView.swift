@@ -16,7 +16,7 @@ struct HMSJoinNameView: View {
     @FocusState private var isFocused: Bool
     
     var body: some View {
-        TextField("Name", text: $name, prompt: Text("Enter Name...")
+        TextField(currentTheme.localized.name, text: $name, prompt: Text(currentTheme.localized.enterName)
             .foregroundColor(currentTheme.colorTheme.onSurfaceLow))
             .focused($isFocused)
             .padding()

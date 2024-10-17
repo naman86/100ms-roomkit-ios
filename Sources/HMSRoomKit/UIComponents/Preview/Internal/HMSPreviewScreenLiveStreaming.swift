@@ -99,7 +99,7 @@ struct HMSPreviewScreenLiveStreaming: View {
                 try await roomModel.leaveSession()
             }
         }), content: {
-            Alert(title: Text("Error"), message: Text(roomModel.lastError?.localizedDescription ?? ""))
+            Alert(title: Text(currentTheme.localized.errorTitle), message: Text(roomModel.lastError?.localizedDescription ?? ""))
         })
         .onChange(of: roomModel.localAudioTrackModel) { model in
             roomModel.toggleMic()

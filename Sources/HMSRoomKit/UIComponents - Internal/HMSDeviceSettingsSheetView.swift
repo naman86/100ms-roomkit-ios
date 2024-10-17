@@ -12,6 +12,7 @@ import HMSRoomModels
 
 struct HMSDeviceSettingsSheetView: View {
     
+    @EnvironmentObject var currentTheme: HMSUITheme
     @EnvironmentObject var roomModel: HMSRoomModel
     
     @Binding var isPresented: Bool
@@ -21,7 +22,7 @@ struct HMSDeviceSettingsSheetView: View {
             
             VStack(alignment: .leading, spacing: 16) {
                 HStack {
-                    Text("Speaker Settings")
+                    Text(currentTheme.localized.speakerSettings)
                         .font(.heading6Semibold20)
                     
                     Spacer()
@@ -41,7 +42,7 @@ struct HMSDeviceSettingsSheetView: View {
                     
                     HStack {
                         Image(systemName: "speaker.wave.2")
-                        Text("Speaker")
+                        Text(currentTheme.localized.speaker)
                         
                         Spacer(minLength: 0)
                     }
@@ -55,7 +56,7 @@ struct HMSDeviceSettingsSheetView: View {
                     
                     HStack {
                         Image(systemName: "phone")
-                        Text("Phone")
+                        Text(currentTheme.localized.phone)
                         
                         Spacer(minLength: 0)
                     }
@@ -70,7 +71,7 @@ struct HMSDeviceSettingsSheetView: View {
                     HMSAirplayButton {
                         HStack {
                             Image(systemName: "speaker.wave.2")
-                            Text("Other devices")
+                            Text(currentTheme.localized.otherDevices)
                             
                             Spacer(minLength: 0)
                         }

@@ -30,7 +30,7 @@ struct HMSLeaveCallView: View {
                         .frame(width: 24, height: 24)
                         .foreground(.errorDefault)
                     
-                    Text(currentTheme.localized.string(.leaveSession))
+                    Text(currentTheme.localized.leaveSession)
                         .font(.heading6Semibold20)
                         .foreground(.errorDefault)
                     
@@ -43,13 +43,13 @@ struct HMSLeaveCallView: View {
                         }
                 }
                 
-                Text(currentTheme.localized.string(.leaveSessionMessage))
+                Text(currentTheme.localized.leaveSessionMessage)
                     .fixedSize(horizontal: false, vertical: true)
                     .font(.body2Regular14)
                     .foreground(.onSurfaceMedium)
             }
             
-            Text(currentTheme.localized.string(.leaveSession))
+            Text(currentTheme.localized.leaveSession)
                 .font(.heading6Semibold20)
                 .foreground(.errorBrighter)
                 .frame(maxWidth: .infinity)
