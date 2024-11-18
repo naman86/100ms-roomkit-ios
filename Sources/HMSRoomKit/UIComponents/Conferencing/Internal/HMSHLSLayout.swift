@@ -70,9 +70,9 @@ struct HMSHLSLayout: View {
                                         .environmentObject(localPeerModel)
                                 }
                                 
-                                if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
-                                    HMSOptionsToggleView(isHLSViewer: true)
-                                }
+//                                if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+//                                    HMSOptionsToggleView(isHLSViewer: true)
+//                                }
                             }
                         }
                     }
@@ -111,9 +111,9 @@ struct HMSHLSLayout: View {
                                             .environmentObject(localPeerModel)
                                     }
                                     
-                                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
-                                        HMSOptionsToggleView(isHLSViewer: true)
-                                    }
+//                                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+//                                        HMSOptionsToggleView(isHLSViewer: true)
+//                                    }
                                 }
                             }
                             else {
@@ -123,9 +123,9 @@ struct HMSHLSLayout: View {
                                             .environmentObject(localPeerModel)
                                     }
                                     
-                                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
-                                        HMSOptionsToggleView(isHLSViewer: true)
-                                    }
+//                                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+//                                        HMSOptionsToggleView(isHLSViewer: true)
+//                                    }
                                 }
                             }
                         }
@@ -198,9 +198,9 @@ struct HMSHLSLayout: View {
                                     .environmentObject(localPeerModel)
                             }
                             
-                            if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
-                                HMSOptionsToggleView(isHLSViewer: true)
-                            }
+//                            if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+//                                HMSOptionsToggleView(isHLSViewer: true)
+//                            }
                         }
                     }) {
                         if keyboardState.wrappedValue == .hidden {

@@ -64,10 +64,10 @@ struct HMSBottomControlStrip: View {
                             }
                     }
                     
-                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
-                        HMSOptionsToggleView(isHLSViewer: isHLSViewer)
-                            .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
-                    }
+//                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+//                        HMSOptionsToggleView(isHLSViewer: isHLSViewer)
+//                            .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
+//                    }
                 }
                 Spacer(minLength: 0)
             }
