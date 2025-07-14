@@ -34,8 +34,6 @@ struct HMSBottomControlStrip: View {
         let canStartRecording = roomModel.userCanStartStopRecording
         let canScreenShare = roomModel.userCanShareScreen
         
-        let chatInitialState = conferenceComponentParam.chat?.initialState ?? .close
-        
         if let localPeerModel = roomModel.localPeerModel {
             HStack(spacing: 0) {
                 Spacer(minLength: 0)
@@ -64,10 +62,10 @@ struct HMSBottomControlStrip: View {
                             }
                     }
                     
-//                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
-//                        HMSOptionsToggleView(isHLSViewer: isHLSViewer)
-//                            .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
-//                    }
+                    if isParticipantListEnabled || isBrbEnabled || isHandRaiseEnabled || canStartRecording || canScreenShare {
+                        HMSOptionsToggleView(isHLSViewer: isHLSViewer)
+                            .background(.backgroundDim, cornerRadius: 8, opacity: 0.64)
+                    }
                 }
                 Spacer(minLength: 0)
             }
