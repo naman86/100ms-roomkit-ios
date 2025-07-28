@@ -25,11 +25,10 @@ struct HMSSendChatField: View {
     @State var inputValid: Bool = false
     
     @FocusState private var isFocused: Bool
-#warning("sendaMessageTitle loc not working")
     var body: some View {
         if let chat = conferenceParams.chat {
             HStack(spacing: 16) {
-                TextField(currentTheme.localized.sendaMessageTitle, text: $message, prompt: Text(chat.messagePlaceholder)
+                TextField(currentTheme.localized.sendaMessageTitle, text: $message, prompt: Text(currentTheme.localized.sendaMessageTitle)
                     .foregroundColor(currentTheme.colorTheme.onSurfaceLow))
                 .textInputAutocapitalization(.sentences)
                 .focused($isFocused)

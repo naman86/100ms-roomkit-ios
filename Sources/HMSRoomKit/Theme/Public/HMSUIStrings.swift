@@ -224,7 +224,7 @@ public class HMSUIStrings: ObservableObject {
     @Published public var watchingTitle: String = "%@ watching"
     @Published public var startedTitle: String = "Started"
     @Published public var agoTitle: String = "ago"
-    @Published public var moreTitle: String = "...more"
+    @Published public var moreWithDotsTitle: String = "...more"
     @Published public var recordingTitle: String = "Recording"
     @Published public var stopRecordingTitle: String = "Stop Recording"
     @Published public var stopRecordingMessage: String = "Are you sure you want to stop recording? You can’t undo this action."

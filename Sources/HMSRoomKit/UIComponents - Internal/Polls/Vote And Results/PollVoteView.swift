@@ -84,7 +84,9 @@ struct PollVoteView: View {
         .environmentObject(currentTheme)
         .padding(.horizontal, 24)
         .background(HMSUIColorTheme().surfaceDim)
-        .onAppear(perform: model.load)
+        .onAppear {
+            model.load(currentTheme: currentTheme)
+        }
         .navigationBarHidden(true)
     }
 }

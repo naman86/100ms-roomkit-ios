@@ -11,6 +11,8 @@ import HMSSDK
 
 struct PollLeaderboardView: View {
     @ObservedObject var model: PollLeaderboardViewModel
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     var isSummary = false
     
     var body: some View {
@@ -18,6 +20,8 @@ struct PollLeaderboardView: View {
             ForEach(isSummary ? model.summaryEntries : model.entries) { entry in
                 PollLeaderboardEntryView(model: entry)
             }
+        }.onAppear {
+            model.setupCurrentTheme(currentTheme: currentTheme)
         }
     }
 }

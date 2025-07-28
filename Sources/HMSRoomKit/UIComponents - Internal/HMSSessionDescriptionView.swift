@@ -47,7 +47,7 @@ struct HMSConferenceDescriptionView: View {
                                 .layoutPriority(1)
                         }
                         if !isExpanded && conferenceComponentParam.header?.description != nil {
-                            Text(currentTheme.localized.moreTitle)
+                            Text(currentTheme.localized.moreWithDotsTitle)
                                 .lineLimit(1)
                                 .font(.captionSemibold12)
                                 .foreground(.onSurfaceHigh)

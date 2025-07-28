@@ -100,7 +100,7 @@ class HMSParticipantListViewModel {
     static let commonSortOrderMap = [handRaisedSectionName.lowercased(), "host", "guest", "teacher", "student", "viewer"].enumerated().reduce(into: [String: Int]()) {
         $0[$1.1] = $1.0
     }
-#warning("crash Fatal error: No ObservableObject of type HMSUITheme found. A View.environmentObject(_:) for HMSUITheme may be missing as an ancestor of this view.")
+
     static let handRaisedSectionName = currentTheme.localized.handRaisedTitle
     
     static func makeDynamicSectionedPeers(from peers: [HMSPeerModel], searchQuery: String) -> [PeerSectionViewModel] {
