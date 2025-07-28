@@ -10,7 +10,8 @@ import SwiftUI
 struct PollLeaderboardDetailView: View {
     @ObservedObject var model: PollLeaderboardViewModel
     @Environment(\.presentationMode) var presentationMode
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     var body: some View {
         VStack(alignment: .trailing, spacing: 0) {
             Spacer(minLength: 24)
@@ -31,8 +32,8 @@ struct PollLeaderboardDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Leaderboard").foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
-                            Text("Based on score and time taken to cast the correct answer").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular)
+                            Text(currentTheme.localized.leaderboardTitle).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
+                            Text(currentTheme.localized.castAnswerMessage).foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular)
                         }
                         Spacer()
                     }

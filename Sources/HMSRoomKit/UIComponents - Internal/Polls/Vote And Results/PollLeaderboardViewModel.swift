@@ -7,6 +7,7 @@
 
 import Foundation
 import HMSSDK
+import SwiftUI
 
 class PollLeaderboardViewModel: ObservableObject, Identifiable {
     let interactivityCenter: HMSInteractivityCenter
@@ -20,7 +21,7 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
     @Published var summaryEntries = [PollLeaderboardEntryViewModel]()
     @Published var showViewAll = false
     @Published var summary: PollSummaryViewModel?
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
     
     internal init(poll: HMSPoll, interactivityCenter: HMSInteractivityCenter, isAmdin: Bool) {
         self.poll = poll
@@ -72,23 +73,23 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
         
         let votedPercent = summary.respondedPeersCount * 100 / summary.totalPeersCount
         let votedDescription = "(\(summary.respondedPeersCount)/\(summary.totalPeersCount)"
-        let voted = PollSummaryItemViewModel(title: "VOTED", subtitle: "\(votedPercent)% \(votedDescription))")
+        let voted = PollSummaryItemViewModel(title: currentTheme.localized.votedTitle.uppercased(), subtitle: "\(votedPercent)% \(votedDescription))")
         
         let correctPercent = summary.respondedCorrectlyPeersCount * 100 / summary.totalPeersCount
         let correctDescription = "(\(summary.respondedCorrectlyPeersCount)/\(summary.totalPeersCount)"
-        let correct = PollSummaryItemViewModel(title: "CORRECT ANSWERS", subtitle: "\(correctPercent)% \(correctDescription))")
+        let correct = PollSummaryItemViewModel(title: currentTheme.localized.correctAnswersTitle, subtitle: "\(correctPercent)% \(correctDescription))")
         let row1 = PollSummaryItemRowViewModel(items: [voted, correct])
         
         rows.append(row1)
         
         var items = [PollSummaryItemViewModel]()
         if summary.averageTime > 0 {
-            let avgTime = PollSummaryItemViewModel(title: "AVG. TIME TAKEN", subtitle: "\(TimeInterval(summary.averageTime / 1000).stringTime)")
+            let avgTime = PollSummaryItemViewModel(title: currentTheme.localized.avgTimeTakenTitle, subtitle: "\(TimeInterval(summary.averageTime / 1000).stringTime)")
             items.append(avgTime)
         }
         
         if summary.averageScore > 0 {
-            let avgScore = PollSummaryItemViewModel(title: "AVG. SCORE", subtitle: "\(summary.averageScore)")
+            let avgScore = PollSummaryItemViewModel(title: currentTheme.localized.avgScoreTitle, subtitle: "\(summary.averageScore)")
             items.append(avgScore)
         }
 
@@ -107,17 +108,17 @@ class PollLeaderboardViewModel: ObservableObject, Identifiable {
         guard let userEntry = response.entries.first(where: { $0.peer?.customerUserID == userID }) else { return }
         let model = PollLeaderboardEntryViewModel(entry: userEntry, poll: poll)
         
-        let rank = PollSummaryItemViewModel(title: "YOUR RANK", subtitle: "\(model.place)")
+        let rank = PollSummaryItemViewModel(title: currentTheme.localized.rankTitle, subtitle: "\(model.place)")
         
-        let points = PollSummaryItemViewModel(title: "POINTS", subtitle: "\(userEntry.score)")
+        let points = PollSummaryItemViewModel(title: currentTheme.localized.pointsTitle, subtitle: "\(userEntry.score)")
         let row1 = PollSummaryItemRowViewModel(items: [rank, points])
         
         var items = [PollSummaryItemViewModel]()
         if !model.time.isEmpty {
-            let time = PollSummaryItemViewModel(title: "TIME TAKEN", subtitle: model.time)
+            let time = PollSummaryItemViewModel(title: currentTheme.localized.timeTakenTitle, subtitle: model.time)
             items.append(time)
         }
-        let score = PollSummaryItemViewModel(title: "CORRECT ANSWERS", subtitle: model.correctAnswers)
+        let score = PollSummaryItemViewModel(title: currentTheme.localized.correctAnswersTitle, subtitle: model.correctAnswers)
         items.append(score)
         let row2 = PollSummaryItemRowViewModel(items: items)
         
@@ -134,7 +135,7 @@ class PollLeaderboardEntryViewModel: Identifiable {
         }
         
         self.place = entry.position
-        self.name = entry.peer?.userName ?? "Unknown"
+        self.name = entry.peer?.userName ?? ""
         self.score = totalScore > 0 ? "\(entry.score)/\(totalScore)" : ""
         self.correctAnswers = "\(entry.correctResponses)/\(totalQuestions)"
         self.time = entry.duration > 0 ? TimeInterval(entry.duration / 1000).stringTime : ""

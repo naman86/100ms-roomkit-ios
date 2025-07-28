@@ -8,11 +8,13 @@
 
 import Foundation
 import HMSSDK
+import SwiftUI
 
 class QuestionCreateViewModel: ObservableObject, Identifiable {
     @Published var questions = [QuestionCreateModel]()
     @Published var showingAlert = false
     @Published var alertText = ""
+    @EnvironmentObject var currentTheme: HMSUITheme
     
     var pollModel: PollCreateModel
     
@@ -37,7 +39,8 @@ class QuestionCreateViewModel: ObservableObject, Identifiable {
         }
         
         for (index, question) in pollQuestions.enumerated() {
-            let createModel = QuestionCreateModel(pollModel: pollModel, index: index + 1, count: pollQuestions.count, question: question, saved: true) { [weak self] questionModel in
+            let selOptStr = question.type.toDisplayString(currentTheme: currentTheme)
+            let createModel = QuestionCreateModel(pollModel: pollModel, index: index + 1, count: pollQuestions.count, question: question, saved: true, currentTheme: currentTheme) { [weak self] questionModel in
                 self?.saveQuestions(questionToSave: questionModel)
             } onDelete: { [weak self] questionModel in
                 self?.deleteQuestion(questionToDelete: questionModel)
@@ -48,7 +51,7 @@ class QuestionCreateViewModel: ObservableObject, Identifiable {
     }
     
     func addQuestion() {
-        let createModel = QuestionCreateModel(pollModel: pollModel, index: 0, count: 0, showAnswerSelection: pollModel.createdPoll?.category == .quiz, saved: false) { [weak self] questionModel in
+        let createModel = QuestionCreateModel(pollModel: pollModel, index: 0, count: 0, showAnswerSelection: pollModel.createdPoll?.category == .quiz, saved: false, currentTheme: currentTheme) { [weak self] questionModel in
             self?.saveQuestions(questionToSave: questionModel)
         } onDelete: { [weak self] questionModel in
             self?.deleteQuestion(questionToDelete: questionModel)
@@ -180,7 +183,7 @@ class QuestionCreateViewModel: ObservableObject, Identifiable {
     
     func startPoll() {
         guard pollModel.createdPoll?.questions?.isEmpty == false else {
-            alertText = "You need to have at least one saved question to start a poll."
+            alertText = currentTheme.localized.pollSaveError
             showingAlert = true
             return
         }
@@ -189,16 +192,16 @@ class QuestionCreateViewModel: ObservableObject, Identifiable {
 }
 
 extension HMSPollQuestionType {
-    public func toDisplayString() -> String {
+    public func toDisplayString(currentTheme: HMSUITheme) -> String {
         switch self {
         case .singleChoice:
-            return "Single Choice"
+            return currentTheme.localized.singleChoiceTitle
         case .multipleChoice:
-            return "Multiple Choice"
+            return currentTheme.localized.multiChoiceTitle
         case .shortAnswer:
-            return "Short Answer"
+            return currentTheme.localized.shortAnsTitle
         case .longAnswer:
-            return "Long Answer"
+            return currentTheme.localized.longAnsTitle
         default:
             return ""
         }

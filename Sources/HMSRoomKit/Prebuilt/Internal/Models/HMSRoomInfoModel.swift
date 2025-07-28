@@ -35,14 +35,19 @@ class HMSRoomInfoModel: ObservableObject {
     
     @Published var onStageRole = ""
     @Published var offStageRoles = [String]()
-    @Published var bringToStageLabel = "Bring on Stage"
-    @Published var removeFromStageLabel = "Remove from Stage"
+    @Published var bringToStageLabel = ""
+    @Published var removeFromStageLabel = ""
     @Published var isBroadcaster: Bool = false
     
     @Published var isNoiseCancellationOnByDefault: Bool = false
     @Published var defaultVirtualBackgroundUrl: URL? = nil
     
     @Published var defaultLeaveScreen: HMSRoomLayout.LayoutData.Screens.Leave.DefaultLeaveScreen?
+    
+    init() {
+        bringToStageLabel = theme.localized.bringOnStage
+        removeFromStageLabel = theme.localized.removeFromStage
+    }
     
     var roomLayout: HMSRoomLayout? {
         didSet {

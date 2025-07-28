@@ -8,9 +8,12 @@
 
 import Foundation
 import HMSSDK
+import SwiftUI
 
 class PollCreateModel: ObservableObject, Identifiable {
     let interactivityCenter: HMSInteractivityCenter
+
+    @EnvironmentObject var currentTheme: HMSUITheme
     
     @Published var selectedCategory: HMSPollCategory = .poll
     @Published var pollTitle: String = ""
@@ -58,7 +61,7 @@ class PollCreateModel: ObservableObject, Identifiable {
     func validate() -> Bool {
         if pollTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             valid = false
-            errorMessage = "Please fill in the name field to Start."
+            errorMessage =  currentTheme.localized.nameFieldErrorTitle
         } else {
             valid = true
             errorMessage = ""

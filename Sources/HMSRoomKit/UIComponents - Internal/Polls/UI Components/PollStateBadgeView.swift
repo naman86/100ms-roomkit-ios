@@ -18,7 +18,8 @@ struct PollStateBadgeView: View {
     
     var pollState: HMSPollState
     var endDate: Date?
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     @State private var timeLeft = ""
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -33,7 +34,7 @@ struct PollStateBadgeView: View {
     
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
-            Text(pollState.stateString).font(HMSUIFontTheme().overlineMedium)
+            Text(pollState.stateString(currentTheme: currentTheme)).font(HMSUIFontTheme().overlineMedium)
                 .foregroundColor(HMSUIColorTheme().onPrimaryHigh).padding(.horizontal, 8).padding(.vertical, 4).background(pollState == .started ? HMSUIColorTheme().alertErrorDefault : HMSUIColorTheme().surfaceBrighter).clipShape(RoundedRectangle(cornerRadius: 4))
             if pollState == .started && !timeLeft.isEmpty {
                 Text(timeLeft).font(HMSUIFontTheme().overlineMedium)
@@ -48,14 +49,14 @@ struct PollStateBadgeView: View {
 }
 
 extension HMSPollState {
-    var stateString: String {
+    func stateString(currentTheme: HMSUITheme) -> String {
         switch self {
         case .created:
-            return "DRAFT"
+            return currentTheme.localized.pollDraftState
         case .started:
-            return "LIVE"
+            return currentTheme.localized.live
         case .stopped:
-            return "ENDED"
+            return currentTheme.localized.pollEndedState
         @unknown default:
             return ""
         }

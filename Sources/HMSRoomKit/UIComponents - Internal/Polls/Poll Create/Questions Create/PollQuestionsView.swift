@@ -10,21 +10,22 @@ import SwiftUI
 
 struct PollQuestionsView: View {
     @ObservedObject var model: QuestionCreateModel
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("QUESTION \(model.index) of \(model.count)").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular).frame(maxWidth: .infinity, alignment: .leading)
+            Text("\(currentTheme.localized.questionTitle) \(model.index) \(currentTheme.localized.of) \(model.count)").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular).frame(maxWidth: .infinity, alignment: .leading)
 
             if model.editing {
-                HMSPickerField(title:"Question Type", options: model.options, selectedOption: $model.selectedOption)
-                PollTextField(placeholder: "Ask a question", text: $model.text, valid: model.valid)
+                HMSPickerField(title: currentTheme.localized.questionTypeTitle, options: model.options, selectedOption: $model.selectedOption)
+                PollTextField(placeholder: currentTheme.localized.askQuestionTitle, text: $model.text, valid: model.valid)
             } else {
                 Text(model.text).foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().body1Regular16)
             }
             
             if (model.editing ) {
                 if (model.type == .singleChoice || model.type == .multipleChoice) {
-                    Text("Options").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().body2Regular14)
+                    Text(currentTheme.localized.optionsTitle).foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().body2Regular14)
                     VStack(alignment: .leading, spacing: 16) {
                         ForEach(model.questionOptions) { option in
                             PollOptionView(model: option)
@@ -35,13 +36,13 @@ struct PollQuestionsView: View {
                         Button {
                             model.addOption()
                         } label: {
-                            Label("Add an option", systemImage: "plus.circle")
+                            Label(currentTheme.localized.addOptionTitle, systemImage: "plus.circle")
                         }.buttonStyle(HMSIconTextButtonStyle())
                     }
                 }
                 if (model.showAnswerSelection) {
                     HStack {
-                        Text("Point Weightage").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().body2Regular14)
+                        Text(currentTheme.localized.pointWeigthageTitle).foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().body2Regular14)
                         Spacer()
                         PollTextField(placeholder: "", text: $model.weight, valid: model.weightSelected, keyboardType: .numberPad).frame(width: 88)
                     }
@@ -54,9 +55,9 @@ struct PollQuestionsView: View {
                 }
             }
             if !model.valid || !model.optionsValid {
-                Text("Please fill the fields to Save.").foregroundColor(HMSUIColorTheme().alertErrorDefault).font(HMSUIFontTheme().body2Regular14)
+                Text(currentTheme.localized.fillFieldsErrorTitle).foregroundColor(HMSUIColorTheme().alertErrorDefault).font(HMSUIFontTheme().body2Regular14)
             } else if !model.answersSelected {
-                Text("Please select an answer for the question.").foregroundColor(HMSUIColorTheme().alertErrorDefault).font(HMSUIFontTheme().body2Regular14)
+                Text(currentTheme.localized.selectAnsErrorTItle).foregroundColor(HMSUIColorTheme().alertErrorDefault).font(HMSUIFontTheme().body2Regular14)
             }
             HStack {
                 if model.index > 1 {
@@ -74,7 +75,7 @@ struct PollQuestionsView: View {
                     if model.loading {
                         ProgressView()
                     } else {
-                        Text(model.editing ? "Save" : "Edit")
+                        Text(model.editing ? currentTheme.localized.saveTitle : currentTheme.localized.editTitle)
                     }
                 }.buttonStyle(ActionButtonLowEmphStyle()).allowsHitTesting(!model.loading)
             }

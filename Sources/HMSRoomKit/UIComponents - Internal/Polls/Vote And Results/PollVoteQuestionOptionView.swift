@@ -10,7 +10,8 @@ import SwiftUI
 
 struct PollVoteQuestionOptionView: View {
     @ObservedObject var model: PollVoteQuestionOptionViewModel
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     var body: some View {
         Button {
             model.select()
@@ -24,7 +25,8 @@ struct PollVoteQuestionOptionView: View {
                         HStack {
                             Text(model.text).foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().body2Regular14)
                             Spacer()
-                            Text("\(model.voteCount) vote\(model.voteCount == 1 ? "" : "s")").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().body2Regular14)
+                            let voteTitle = model.voteCount == 1 ? currentTheme.localized.vote : currentTheme.localized.votes
+                            Text("\(model.voteCount) \(voteTitle)").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().body2Regular14)
                         }
                         ProgressView(value: model.progress).progressViewStyle(.linear)
                     } else {

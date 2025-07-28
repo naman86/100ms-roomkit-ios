@@ -14,6 +14,7 @@ struct PollQuestionsCreateView: View {
         self.model = model
     }
     
+    @EnvironmentObject var currentTheme: HMSUITheme
     @ObservedObject var model: QuestionCreateViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -43,18 +44,19 @@ struct PollQuestionsCreateView: View {
                     Button {
                         model.addQuestion()
                     } label: {
-                        Label("Add another question", systemImage: "plus.circle")
+                        Label(currentTheme.localized.addAnotherQuesTitle, systemImage: "plus.circle")
                     }.buttonStyle(HMSIconTextButtonStyle())
                     Spacer()
                 }
                 Spacer(minLength: 24)
                 HStack {
                     Spacer()
-                    Button("Launch \(model.pollModel.createdPoll?.category == .poll ? "Poll" : "Quiz")") {
+                    let title = model.pollModel.createdPoll?.category == .poll ? currentTheme.localized.pollStr : currentTheme.localized.quizStr
+                    Button("\(currentTheme.localized.launchTitle) \(title)") {
                         model.startPoll()
                         presentationMode.wrappedValue.dismiss()
                     }.buttonStyle(ActionButtonStyle(isWide: false)).alert(isPresented: $model.showingAlert) {
-                        Alert(title: Text("Error"), message: Text(model.alertText), dismissButton: .default(Text("OK")))
+                        Alert(title: Text(currentTheme.localized.errorTitle), message: Text(model.alertText), dismissButton: .default(Text(currentTheme.localized.okTitle)))
                     }
                 }
             }

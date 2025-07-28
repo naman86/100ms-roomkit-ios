@@ -62,7 +62,7 @@ struct HMSPeerOptionsButtonView<Content: View>: View {
     }
     
     var body: some View {
-        if let context = peerModel.popoverContext(roomModel: roomModel, conferenceParams: conferenceComponentParam, isPresented: $isPresented, menuAction: $menuAction) {
+        if let context = peerModel.popoverContext(roomModel: roomModel, conferenceParams: conferenceComponentParam, isPresented: $isPresented, menuAction: $menuAction, currentTheme: currentTheme) {
             label()
                 .gesture(DragGesture(minimumDistance: 0.0, coordinateSpace: .local).onEnded({ _ in
                     isPresented.toggle()

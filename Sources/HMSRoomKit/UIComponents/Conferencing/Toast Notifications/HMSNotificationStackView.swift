@@ -46,7 +46,8 @@ struct HMSNotificationStackView: View {
         let groupedNotifications: [HMSRoomKitNotification] = {
             
             if handRaisedNotifications.count > 1 {
-                let combinedHandRaisedNotification = HMSRoomKitNotification(id: handRaisedNotifications.map{$0.id}.joined(separator: "+"), type: .handRaisedGrouped(ids: handRaisedNotifications.map{$0.id}), actor: handRaisedNotifications.map{$0.actor}.joined(separator: ", "), isDismissible: true, title: "\(handRaisedNotifications.first?.actor ?? "") and \(handRaisedNotifications.count - 1) other\(handRaisedNotifications.count > 2 ? "s" : "") raised hand")
+                let othersTitle = handRaisedNotifications.count > 2 ? currentTheme.localized.otherPluralTitle : currentTheme.localized.otherSingularTitle 
+                let combinedHandRaisedNotification = HMSRoomKitNotification(id: handRaisedNotifications.map{$0.id}.joined(separator: "+"), type: .handRaisedGrouped(ids: handRaisedNotifications.map{$0.id}), actor: handRaisedNotifications.map{$0.actor}.joined(separator: ", "), isDismissible: true, title: "\(handRaisedNotifications.first?.actor ?? "") \(currentTheme.localized.and) \(handRaisedNotifications.count - 1) \(othersTitle) \(currentTheme.localized.raisedHandTitle)")
                 
                 if let lastRaisedHandIndex = roomKitModel.activeNotifications.lastIndex(where: handRaisefilter) {
                     return (roomKitModel.activeNotifications[0..<lastRaisedHandIndex] +  [combinedHandRaisedNotification] + roomKitModel.activeNotifications[(lastRaisedHandIndex + 1)..<roomKitModel.activeNotifications.count]).filter(excludeHandRaisefilter)
@@ -54,7 +55,9 @@ struct HMSNotificationStackView: View {
             }
             
             if declineRoleChangeNotifications.count > 1 {
-                let combinedDeclineRoleChangeNotification = HMSRoomKitNotification(id: declineRoleChangeNotifications.map{$0.id}.joined(separator: "+"), type: .groupedDeclineRoleChange(ids: declineRoleChangeNotifications.map{$0.id}), actor: declineRoleChangeNotifications.map{$0.actor}.joined(separator: ", "), isDismissible: true, title: "\(declineRoleChangeNotifications.first?.actor ?? "") and \(declineRoleChangeNotifications.count - 1) other\(declineRoleChangeNotifications.count > 2 ? "s" : "") declined the request to join the stage")
+                let othersTitle = declineRoleChangeNotifications.count > 2 ? currentTheme.localized.otherPluralTitle : currentTheme.localized.otherSingularTitle 
+
+                let combinedDeclineRoleChangeNotification = HMSRoomKitNotification(id: declineRoleChangeNotifications.map{$0.id}.joined(separator: "+"), type: .groupedDeclineRoleChange(ids: declineRoleChangeNotifications.map{$0.id}), actor: declineRoleChangeNotifications.map{$0.actor}.joined(separator: ", "), isDismissible: true, title: "\(declineRoleChangeNotifications.first?.actor ?? "") \(currentTheme.localized.and) \(othersTitle) \(currentTheme.localized.declineJoinStageTitle)")
                 
                 if let lastDeclineRoleChangeNotificationIndex = roomKitModel.activeNotifications.lastIndex(where: {$0.type == .declineRoleChange}) {
                     return (roomKitModel.activeNotifications[0..<lastDeclineRoleChangeNotificationIndex] +  [combinedDeclineRoleChangeNotification] + roomKitModel.activeNotifications[(lastDeclineRoleChangeNotificationIndex + 1)..<roomKitModel.activeNotifications.count]).filter{$0.type != .declineRoleChange}

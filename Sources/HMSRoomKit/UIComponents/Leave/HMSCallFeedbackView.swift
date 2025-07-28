@@ -103,7 +103,7 @@ struct HMSCallFeedbackView: View {
                 }
                 
                 let layoutLabel = feedback.submit_btn_label ?? ""
-                let buttonText =  layoutLabel.isEmpty ? "Submit Feedback" : layoutLabel
+                let buttonText =  layoutLabel.isEmpty ? currentTheme.localized.submitFeedbackTitle : layoutLabel
                 
                 Text(buttonText)
                     .font(.buttonSemibold16)
@@ -222,7 +222,8 @@ extension HMSRoomLayout.LayoutData.Screens.Leave.DefaultLeaveScreen.Elements.Fee
 struct ToolbarTextView: UIViewRepresentable {
     @Binding var text: String
     var color: UIColor
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     func makeCoordinator() -> Coordinator {
         Coordinator()
     }
@@ -242,6 +243,8 @@ struct ToolbarTextView: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, UITextViewDelegate {
+        @EnvironmentObject var currentTheme: HMSUITheme
+
         lazy var textView: UITextView = {
             let textView = UITextView()
             textView.font = UIFont(name: "Inter-Regular", size: 16) ?? .systemFont(ofSize: 16)
@@ -256,7 +259,7 @@ struct ToolbarTextView: UIViewRepresentable {
             numberToolbar.barStyle = .default
             numberToolbar.items = [
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonPressed))]
+                UIBarButtonItem(title: currentTheme.localized.done, style: .plain, target: self, action: #selector(doneButtonPressed))]
             numberToolbar.sizeToFit()
             return numberToolbar
         }

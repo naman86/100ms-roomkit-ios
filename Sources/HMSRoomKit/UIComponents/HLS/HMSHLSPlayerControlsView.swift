@@ -75,7 +75,7 @@ struct HMSHLSPlayerControlsView: View {
                                     Circle()
                                         .fill(isLive ? currentTheme.colorTheme.alertErrorDefault : currentTheme.colorTheme.onSurfaceLow)
                                         .frame(width: 8, height: 8)
-                                    Text(isLive ? "LIVE" : "GO LIVE")
+                                    Text(isLive ? currentTheme.localized.live : currentTheme.localized.previewGoLiveButtonTitle)
                                         .font(.body1Semibold16)
                                         .foreground(isLive ? .onSurfaceHigh : .onSurfaceMedium)
                                 }.padding(.horizontal, 4)

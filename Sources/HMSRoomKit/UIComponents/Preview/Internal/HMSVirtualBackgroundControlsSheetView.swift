@@ -20,7 +20,8 @@ struct HMSVirtualBackgroundControlsSheetView: View {
     @State var blurValue: CGFloat = 40
     
     var virtualBackgroundUrls: [URL]
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     private let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
@@ -33,7 +34,7 @@ struct HMSVirtualBackgroundControlsSheetView: View {
             
             VStack(spacing: 0) {
                 
-                HMSOptionsHeaderView(title: "Virtual Background", onClose: {
+                HMSOptionsHeaderView(title: currentTheme.localized.virtualBGTitle, onClose: {
                     withAnimation {
                         dismiss()
                     }
@@ -51,7 +52,7 @@ struct HMSVirtualBackgroundControlsSheetView: View {
                 videoTrackView
                 
                 VStack(spacing: 0) {
-                    HMSOptionsHeaderView(title: "Virtual Background", onClose: {
+                    HMSOptionsHeaderView(title: currentTheme.localized.virtualBGTitle, onClose: {
                         withAnimation {
                             dismiss()
                         }
@@ -76,9 +77,9 @@ struct HMSVirtualBackgroundControlsSheetView: View {
         ScrollView {
             
             VStack(alignment: .leading, spacing: 24) {
-                
+
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Effects")
+                    Text(currentTheme.localized.effectsTitle)
                         .font(.body2Semibold14)
                     
                     VStack(alignment: .leading, spacing: 16) {
@@ -89,7 +90,7 @@ struct HMSVirtualBackgroundControlsSheetView: View {
                                     Image(assetName: "diag-cross-xl")
                                         .resizable()
                                         .frame(width: 30, height: 30)
-                                    Text("No effect")
+                                    Text(currentTheme.localized.noEffectTitle)
                                         .foreground(.onSurfaceMedium)
                                         .font(.captionRegular12)
                                 }
@@ -112,7 +113,7 @@ struct HMSVirtualBackgroundControlsSheetView: View {
                                     Image(assetName: "blur-icon")
                                         .resizable()
                                         .frame(width: 30, height: 30)
-                                    Text("Blur")
+                                    Text(currentTheme.localized.blurTitle)
                                         .foreground(.onSurfaceMedium)
                                         .font(.captionRegular12)
                                 }
@@ -158,7 +159,7 @@ struct HMSVirtualBackgroundControlsSheetView: View {
                 .foreground(.onSurfaceHigh)
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Backgrounds")
+                    Text(currentTheme.localized.backgroundTitle)
                         .font(.body2Semibold14)
                         .foreground(.onSurfaceHigh)
                     

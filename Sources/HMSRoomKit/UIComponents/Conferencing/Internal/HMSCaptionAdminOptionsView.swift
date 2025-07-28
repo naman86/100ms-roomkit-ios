@@ -12,7 +12,8 @@ import Combine
 struct HMSCaptionAdminOptionsView: View {
     
     @EnvironmentObject var roomKitModel: HMSRoomNotificationModel
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     @EnvironmentObject var roomModel: HMSRoomModel
     
     @Environment(\.dismiss) var dismiss
@@ -24,7 +25,7 @@ struct HMSCaptionAdminOptionsView: View {
         
         VStack(alignment: .leading) {
             
-            HMSOptionsHeaderView(title: roomModel.isTranscriptionStarted ? "Closed Captions (CC)" : "Enable Closed Captions (CC) for this session?", onClose: {
+            HMSOptionsHeaderView(title: roomModel.isTranscriptionStarted ? currentTheme.localized.closedCaptionsCCTitle : currentTheme.localized.enableClosedCaptionsTitle, onClose: {
                 dismiss()
             })
             .padding(.top, -16)
@@ -32,7 +33,7 @@ struct HMSCaptionAdminOptionsView: View {
                 
                 if !roomModel.isTranscriptionStarted {
                     HStack(alignment: .top, spacing: 16) {
-                        Text("Enable for Everyone")
+                        Text(currentTheme.localized.closedCaptionsEnabledTitle)
                             .foreground(.onPrimaryHigh)
                             .font(.buttonSemibold16)
                         
@@ -43,7 +44,7 @@ struct HMSCaptionAdminOptionsView: View {
                     .onTapGesture {
                         Task {
 
-                            let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "loading-record"), actor: "", isDismissible: false, title: "Enabling Closed Captioning for everyone")
+                            let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "loading-record"), actor: "", isDismissible: false, title: currentTheme.localized.closedCaptionsEnablingTitle)
                             roomKitModel.addNotification(note)
                             
                             do {
@@ -60,7 +61,7 @@ struct HMSCaptionAdminOptionsView: View {
                             }
                             catch {
                                 roomKitModel.removeNotification(for: [note.id])
-                                roomKitModel.addNotification(HMSRoomKitNotification(id: UUID().uuidString, type: .error(icon: "warning-icon", retry: false, isTerminal: false), actor: "", isDismissible: true, title: "Failed to enable Closed Captions"))
+                                roomKitModel.addNotification(HMSRoomKitNotification(id: UUID().uuidString, type: .error(icon: "warning-icon", retry: false, isTerminal: false), actor: "", isDismissible: true, title: currentTheme.localized.closedCaptionsEnableErrorTitle))
                                 cancellable = nil
                             }
 
@@ -85,7 +86,7 @@ struct HMSCaptionAdminOptionsView: View {
                     }
                     
                     HStack(alignment: .top, spacing: 16) {
-                        Text("Disable for Everyone")
+                        Text(currentTheme.localized.closedCaptionsDisabledTitle)
                             .foreground(.errorBrighter)
                             .font(.buttonSemibold16)
                         
@@ -95,7 +96,7 @@ struct HMSCaptionAdminOptionsView: View {
                     .background(.errorDefault, cornerRadius: 8)
                     .onTapGesture {
                         Task {
-                            let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "loading-record"), actor: "", isDismissible: false, title: "Disabling Closed Captioning for everyone")
+                            let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "loading-record"), actor: "", isDismissible: false, title: currentTheme.localized.closedCaptionsDisablingTitle)
                             roomKitModel.addNotification(note)
                             
                             do {
@@ -120,7 +121,7 @@ struct HMSCaptionAdminOptionsView: View {
                     }
                 }
                 
-                Text(!roomModel.isTranscriptionStarted ? "This will enable Closed Captions for everyone in this room. You can disable it later." : "This will disable Closed Captions for everyone in this room. You can enable it again.")
+                Text(!roomModel.isTranscriptionStarted ? currentTheme.localized.closedCaptionsEnableMessage : currentTheme.localized.closedCaptionsDisableMessage)
                     .foreground(.onSurfaceMedium)
                     .font(.body2Regular14)
                 

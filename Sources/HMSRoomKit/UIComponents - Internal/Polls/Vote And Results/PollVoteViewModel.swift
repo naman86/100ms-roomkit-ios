@@ -8,6 +8,7 @@
 
 import Foundation
 import HMSSDK
+import SwiftUI
 
 class PollVoteViewModel: ObservableObject, Identifiable {
     let interactivityCenter: HMSInteractivityCenter
@@ -24,7 +25,7 @@ class PollVoteViewModel: ObservableObject, Identifiable {
     @Published var canEndPoll = false
     @Published var isFetching = false
     @Published var questions = [PollVoteQuestionViewModel]()
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
     
     var id: String {
         poll.pollID
@@ -88,7 +89,8 @@ class PollVoteViewModel: ObservableObject, Identifiable {
             }
         }
         
-        let model = PollSummaryViewModel(items: [PollSummaryItemRowViewModel(items: [PollSummaryItemViewModel(title: "NO. OF CORRECT\nANSWERS", subtitle: "\(correctAnswers)"), PollSummaryItemViewModel(title: "NO. OF INCORRECT\nANSWERS", subtitle: "\(incorrectAnswers)")])])
+#warning("crash Fatal error: No ObservableObject of type HMSUITheme found. A View.environmentObject(_:) for HMSUITheme may be missing as an ancestor of this view.")
+        let model = PollSummaryViewModel(items: [PollSummaryItemRowViewModel(items: [PollSummaryItemViewModel(title: currentTheme.localized.correctAnsTitle, subtitle: "\(correctAnswers)"), PollSummaryItemViewModel(title: currentTheme.localized.incorrectAnsTitle, subtitle: "\(incorrectAnswers)")])])
         summary = model
     }
     
@@ -104,7 +106,7 @@ class PollVoteViewModel: ObservableObject, Identifiable {
         }
         
         
-        let model = PollSummaryViewModel(items: [PollSummaryItemRowViewModel(items: [PollSummaryItemViewModel(title: "NO. OF CORRECT\nANSWERS".uppercased(), subtitle: "\(correctAnswers)"), PollSummaryItemViewModel(title: "NO. OF INCORRECT\nANSWERS".uppercased(), subtitle: "\(incorrectAnswers)")])])
+        let model = PollSummaryViewModel(items: [PollSummaryItemRowViewModel(items: [PollSummaryItemViewModel(title: currentTheme.localized.correctAnsTitle.uppercased(), subtitle: "\(correctAnswers)"), PollSummaryItemViewModel(title: currentTheme.localized.incorrectAnsTitle.uppercased(), subtitle: "\(incorrectAnswers)")])])
         summary = model
     }
 

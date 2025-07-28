@@ -11,10 +11,11 @@ import SwiftUI
 struct PollVoteQuestionView: View {
     @ObservedObject var model: PollVoteQuestionViewModel
     var onVote: (() -> Void)
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("QUESTION \(model.index) of \(model.count)").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular)
+            Text("\(currentTheme.localized.questionTitle) \(model.index) \(currentTheme.localized.of) \(model.count)").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular)
             
             HStack{
                 Text(model.text).foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().body1Regular16)
@@ -38,10 +39,10 @@ struct PollVoteQuestionView: View {
                     Button {
                         onVote()
                     } label: {
-                        Text(model.poll.category == .poll ? "Vote" : "Answer")
+                        Text(model.poll.category == .poll ? currentTheme.localized.vote : currentTheme.localized.answer)
                     }.buttonStyle(ActionButtonStyle(isWide: false, isDisabled: !model.answerSelected)).disabled(!model.answerSelected)
                 } else if model.poll.state == .started {
-                    Text(model.poll.category == .poll ? "Voted" : "Answered").foregroundColor(HMSUIColorTheme().onSurfaceLow).font(HMSUIFontTheme().buttonSemibold16)
+                    Text(model.poll.category == .poll ? currentTheme.localized.votedTitle : currentTheme.localized.answeredTitle).foregroundColor(HMSUIColorTheme().onSurfaceLow).font(HMSUIFontTheme().buttonSemibold16)
                 }
             }
              

@@ -16,7 +16,8 @@ struct PollVoteView: View {
     
     @ObservedObject var model: PollVoteViewModel
     @Environment(\.presentationMode) var presentationMode
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     var body: some View {
         VStack(alignment: .trailing) {
             Spacer(minLength: 24)
@@ -36,12 +37,12 @@ struct PollVoteView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     if !model.startedByName.isEmpty {
-                        Text("\(model.startedByName) started a \(model.poll.category == .poll ? "poll" : "quiz")").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().subtitle1)
+                        Text("\(model.startedByName) \(currentTheme.localized.pollTitle) \(model.poll.category == .poll ? currentTheme.localized.pollStr : currentTheme.localized.quizStr)").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().subtitle1)
                     }
                     if let summary = model.summary {
-                        Text("Participation Summary").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().subtitle2Semibold14)
+                        Text(currentTheme.localized.participationSummaryTitle).foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().subtitle2Semibold14)
                         PollSummaryView(model: summary).padding(.bottom, 8)
-                        Text("Questions").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().subtitle2Semibold14)
+                        Text(currentTheme.localized.questionsTitle).foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().subtitle2Semibold14)
                     }
                     
                     if model.poll.category == .quiz, !model.questions.isEmpty, !model.voteComplete {
@@ -62,7 +63,7 @@ struct PollVoteView: View {
                                     presentationMode.wrappedValue.dismiss()
                                 }
                             } label: {
-                                Text("End \(model.poll.category == .poll ? "Poll" : "Quiz")")
+                                Text("\(currentTheme.localized.endTitle) \(model.poll.category == .poll ? currentTheme.localized.pollStr : currentTheme.localized.quizStr)")
                             }.buttonStyle(ActionButtonStyle(isWide: false))
                         }
                     } else if model.poll.state == .stopped && model.poll.category == .quiz {
@@ -72,7 +73,7 @@ struct PollVoteView: View {
                             HStack {
                                 Spacer()
                                 Button {} label: {
-                                    Text("View Leaderboard")
+                                    Text(currentTheme.localized.viewLeaderBoardTitle)
                                 }.buttonStyle(ActionButtonStyle(isWide: false)).allowsHitTesting(false)
                             }
                         }
@@ -80,6 +81,7 @@ struct PollVoteView: View {
                 }
             }.background(HMSUIColorTheme().surfaceDim)
         }
+        .environmentObject(currentTheme)
         .padding(.horizontal, 24)
         .background(HMSUIColorTheme().surfaceDim)
         .onAppear(perform: model.load)

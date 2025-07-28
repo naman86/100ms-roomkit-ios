@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct HMSPreviewParticipantsLabelView: View {
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     let peerCount: Int
     
     var body: some View {
@@ -26,11 +27,12 @@ struct HMSPreviewParticipantsLabelView: View {
                 
                 
                 if remotePeerCount == 0 {
-                    Text("You are the first to join")
+                    Text(currentTheme.localized.oneJoiningTitle)
                         .font(.body2Semibold14)
                 }
                 else {
-                    Text("\(remotePeerCount) other\(remotePeerCount > 1 ? "s" : "") in session")
+                    let otherTitle = remotePeerCount > 1 ? currentTheme.localized.otherSingularTitle : currentTheme.localized.otherPluralTitle
+                    Text("\(remotePeerCount) \(otherTitle) \(currentTheme.localized.inSessionTitle)")
                         .font(.body2Semibold14)
                 }
                 

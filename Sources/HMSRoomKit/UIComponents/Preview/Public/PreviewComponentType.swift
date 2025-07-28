@@ -8,6 +8,7 @@
 
 import Foundation
 import HMSSDK
+import SwiftUI
 
 extension HMSPreviewScreen {
     
@@ -31,12 +32,14 @@ extension HMSPreviewScreen {
     }
     
     public struct DefaultType {
-        
-        public static let defaultTitle: String = "Get Started"
-        public static let defaultSubTitle: String = "Setup your audio and video before joining"
+
+        @EnvironmentObject static var currentTheme: HMSUITheme
+
+        public static let defaultTitle: String = currentTheme.localized.getStartedTitle
+        public static let defaultSubTitle: String = currentTheme.localized.audioVideoWarningTitle
         public static let defaultJoinButtonType: JoinButtonType = .join
-        public static let defaultJoinButtonLabel: String = "Join Now"
-        public static let defaultGoLiveButtonLabel: String = "Go Live"
+        public static let defaultJoinButtonLabel: String = currentTheme.localized.joinNow
+        public static let defaultGoLiveButtonLabel: String = currentTheme.localized.previewGoLiveButtonTitle
         
         public static let `default`: Self = .init()
         internal init() {}

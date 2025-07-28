@@ -13,12 +13,13 @@ import HMSRoomModels
 struct HMSStopRecordingView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var currentTheme: HMSUITheme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 Image(assetName: "warning-icon-large")
-                Text("Stop Recording")
+                Text(currentTheme.localized.stopRecordingTitle)
                     .font(.heading6Semibold20)
                     .foreground(.errorDefault)
                 Spacer()
@@ -27,9 +28,9 @@ struct HMSStopRecordingView: View {
                         presentationMode.wrappedValue.dismiss()
                     }
             }
-            Text("Are you sure you want to stop recording? You can’t undo this action.").fixedSize(horizontal: false, vertical: true).font(.body2Regular14).foreground(.onSurfaceMedium)
+            Text(currentTheme.localized.stopRecordingMessage).fixedSize(horizontal: false, vertical: true).font(.body2Regular14).foreground(.onSurfaceMedium)
             Spacer().frame(height: 8)
-            Text("Stop").font(.buttonSemibold16).foreground(.errorBrighter).frame(maxWidth: .infinity).padding(.vertical, 12).background(.errorDefault, cornerRadius: 8).onTapGesture {
+            Text(currentTheme.localized.stop).font(.buttonSemibold16).foreground(.errorBrighter).frame(maxWidth: .infinity).padding(.vertical, 12).background(.errorDefault, cornerRadius: 8).onTapGesture {
                 Task {
                     try await roomModel.stopRecording()
                 }

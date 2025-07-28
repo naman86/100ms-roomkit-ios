@@ -95,11 +95,13 @@ class PeerViewModel: ObservableObject, Identifiable {
 
 @MainActor
 class HMSParticipantListViewModel {
+    @EnvironmentObject static var currentTheme: HMSUITheme
+
     static let commonSortOrderMap = [handRaisedSectionName.lowercased(), "host", "guest", "teacher", "student", "viewer"].enumerated().reduce(into: [String: Int]()) {
         $0[$1.1] = $1.0
     }
-    
-    static let handRaisedSectionName = "Hand Raised"
+#warning("crash Fatal error: No ObservableObject of type HMSUITheme found. A View.environmentObject(_:) for HMSUITheme may be missing as an ancestor of this view.")
+    static let handRaisedSectionName = currentTheme.localized.handRaisedTitle
     
     static func makeDynamicSectionedPeers(from peers: [HMSPeerModel], searchQuery: String) -> [PeerSectionViewModel] {
 
@@ -202,7 +204,8 @@ struct HMSParticipantRoleListView: View {
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     @Environment(\.dismiss) var dismiss
     @Environment(\.mainSheetDismiss) var sheetDismiss
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     let roleName: String
     let peerListIterator: HMSPeerListIteratorModel
     
@@ -210,12 +213,12 @@ struct HMSParticipantRoleListView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            HMSOptionsHeaderView(title: "Participant List", showsBackButton: true, showsDivider: false, onClose: {
+            HMSOptionsHeaderView(title: currentTheme.localized.participantListTitle, showsBackButton: true, showsDivider: false, onClose: {
                 sheetDismiss()
             }, onBack: {
                 dismiss()
             })
-            HMSSearchField(searchText: $searchText, placeholder: "Search for participants").padding(.horizontal, 16)
+            HMSSearchField(searchText: $searchText, placeholder: currentTheme.localized.searchForParticipantsTitle).padding(.horizontal, 16)
             Spacer(minLength: 16)
             ScrollView {
                 LazyVStack(spacing: 0) {
@@ -256,7 +259,8 @@ struct HMSParticipantListView: View {
     @State private var searchText: String = ""
     @State private var peerListIterators = [HMSPeerListIteratorModel]()
     @State private var expandedRoleName = ""
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     private let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     
     private func refreshIterators() async throws {
@@ -280,7 +284,7 @@ struct HMSParticipantListView: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack(spacing: 8) {
-                HMSSearchField(searchText: $searchText, placeholder: "Search for participants")
+                HMSSearchField(searchText: $searchText, placeholder: currentTheme.localized.searchForParticipantsTitle)
             }
             let sections = HMSParticipantListViewModel.makeSections(from: roomModel, infoModel: roomInfoModel, peerListIterators: peerListIterators, searchQuery: searchText)
             ZStack {
@@ -300,8 +304,8 @@ struct HMSParticipantListView: View {
                         Spacer()
                         VStack(spacing: 0) {
                             Image(assetName: "search", renderingMode: .original).padding(.bottom, 24)
-                            Text("Too many participants").font(.heading6Semibold20).foreground(.onSurfaceHigh).padding(.bottom, 8)
-                            Text("With so many participants, our search can't pinpoint the name you're looking for.").font(.body2Regular14).foreground(.onSurfaceMedium)
+                            Text(currentTheme.localized.tooManyParticipantsTitle).font(.heading6Semibold20).foreground(.onSurfaceHigh).padding(.bottom, 8)
+                            Text(currentTheme.localized.searchErrorWithMultipleMemebersTitle).font(.body2Regular14).foreground(.onSurfaceMedium)
                         }
                         Spacer()
                     }.padding(.horizontal, 22)
@@ -358,7 +362,7 @@ struct ParticipantSectionView: View {
                         HMSParticipantRoleListView(roleName: model.name, peerListIterator: roomModel.getPeerListIterator(for: model.name, limit: PeerSectionViewModel.viewAllFetchLimit)).environment(\.mainSheetDismiss, sheetDismiss)
                     } label: {
                         HStack {
-                            Text("View All").font(.body2Regular14).foreground(.onSurfaceHigh)
+                            Text(currentTheme.localized.viewAllTitle).font(.body2Regular14).foreground(.onSurfaceHigh)
                             Image(assetName: "back").foreground(.onSurfaceHigh)
                                 .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                         }
@@ -518,7 +522,8 @@ struct HMSParticipantListView_Previews: PreviewProvider {
 }
 
 extension HMSPeerModel {
-    func popoverContext(roomModel: HMSRoomModel, conferenceParams: HMSConferenceScreen.DefaultType, isPresented: Binding<Bool>, menuAction: Binding<HMSPeerOptionsViewContext.Action>) -> HMSPeerOptionsViewContext? {
+    func popoverContext(roomModel: HMSRoomModel, conferenceParams: HMSConferenceScreen.DefaultType, isPresented:                      Binding<Bool>, menuAction: Binding<HMSPeerOptionsViewContext.Action>,
+                        currentTheme: HMSUITheme) -> HMSPeerOptionsViewContext? {
         let audioTrackModel = regularAudioTrackModel
         let regularVideoTrackModel = regularVideoTrackModel
         let isLocal = isLocal
@@ -586,7 +591,7 @@ extension HMSPeerModel {
                 actions.append(.switchRole)
             }
         }
-        
-        return HMSPeerOptionsViewContext(isPresented: isPresented, action: menuAction, name: name + (isLocal ? " (You)" : ""), role: role?.name.capitalized ?? "", actions: actions)
+
+        return HMSPeerOptionsViewContext(isPresented: isPresented, action: menuAction, name: name + (isLocal ? " (\(currentTheme.localized.you)" : ""), role: role?.name.capitalized ?? "", actions: actions)
     }
 }

@@ -15,7 +15,8 @@ struct HMSRolePicker: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
     @Environment(\.conferenceParams) var conferenceParams
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     @EnvironmentObject var roomModel: HMSRoomModel
     @Binding var recipient: HMSRecipient?
     
@@ -55,12 +56,12 @@ struct HMSRolePicker: View {
             
             if case let .peer(peer) = recipient {
                 if roomModel.remotePeerModels.contains(peer) || peer.isTemporary {
-                    Text(recipient!.toString())
+                    Text(HMSRolePicker.recipientToString(recipient: recipient, currentTheme: currentTheme) ?? "")
                         .font(.captionRegular12)
                         .foreground(.onPrimaryHigh)
                 }
                 else {
-                    Text("Choose a recipient")
+                    Text(currentTheme.localized.chooseRecipientTitle)
                         .font(.captionRegular12)
                         .foreground(.onPrimaryHigh)
                         .onAppear() {
@@ -69,7 +70,7 @@ struct HMSRolePicker: View {
                 }
             }
             else {
-                Text(recipient?.toString() ?? "Choose a recipient")
+                Text(HMSRolePicker.recipientToString(recipient: recipient, currentTheme: currentTheme) ?? currentTheme.localized.chooseRecipientTitle)
                     .font(.captionRegular12)
                     .foreground(.onPrimaryHigh)
             }
@@ -104,8 +105,23 @@ struct HMSRolePicker: View {
             }
             .edgesIgnoringSafeArea(.all)
         }
-        
     }
+    
+    static func recipientToString(recipient: HMSRecipient?, currentTheme: HMSUITheme) -> String? {
+        guard let recipient = recipient else {
+            return nil
+        }
+        
+        switch recipient {
+        case .everyone:
+            return currentTheme.localized.everyone
+        case .role(let role):
+            return role.name.capitalized
+        case .peer(let peer):
+            return peer.name
+        }
+    }
+
 }
 
 struct HMSRolePicker_Previews: PreviewProvider {

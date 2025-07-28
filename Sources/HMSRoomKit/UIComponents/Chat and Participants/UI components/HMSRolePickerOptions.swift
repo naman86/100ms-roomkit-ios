@@ -59,12 +59,12 @@ struct HMSRolePickerOptionsView: View {
         
         if let chatScopes {
             VStack(spacing: 0) {
-                HMSOptionsHeaderView(title: "Send message to") {
+                HMSOptionsHeaderView(title: currentTheme.localized.sendMessageToTitle) {
                     dismiss()
                 } onBack: {}
                 
                 if chatScopes.count == 1 && chatScopes.contains(.private) && roomModel.remotePeerModels.count == 0 {
-                    Text("No recipient yet")
+                    Text(currentTheme.localized.noRecipientYetTitle)
                         .foreground(.onSurfaceLow)
                         .font(.subtitle2Semibold14)
                         .padding(.vertical, 38)
@@ -72,7 +72,7 @@ struct HMSRolePickerOptionsView: View {
                 else {
                     
                     HStack {
-                        HMSSearchField(searchText: $searchQuery, placeholder: "Search for participants", style: .dark)
+                        HMSSearchField(searchText: $searchQuery, placeholder: currentTheme.localized.searchForParticipantsTitle, style: .dark)
                     }.padding(.horizontal, 24)
                     
                     ScrollView {
@@ -87,7 +87,8 @@ struct HMSRolePickerOptionsView: View {
                                     HStack {
                                         Image(assetName: "group")
                                             .foreground(.onSurfaceHigh)
-                                        Text(HMSRecipient.everyone.toString())
+                                        Text(HMSRolePicker.recipientToString(recipient: .everyone,
+                                                                             currentTheme: currentTheme) ?? "")
                                             .font(.subtitle2Semibold14)
                                             .foreground(.onSurfaceHigh)
                                         
@@ -109,7 +110,7 @@ struct HMSRolePickerOptionsView: View {
                             
                             if filteredRoles.count > 0 {
                                 
-                                Text("Roles")
+                                Text(currentTheme.localized.rolesTitle)
                                     .font(.overlineMedium)
                                     .foreground(.onSurfaceMedium)
                                     .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))
@@ -157,7 +158,7 @@ struct HMSRolePickerOptionsView: View {
                             }
                             
                             if filteredPeers.count > 0 {
-                                Text("Participants")
+                                Text(currentTheme.localized.participantsTitle)
                                     .font(.overlineMedium)
                                     .foreground(.onSurfaceMedium)
                                     .padding(EdgeInsets(top: 16, leading: 24, bottom: 0, trailing: 0))

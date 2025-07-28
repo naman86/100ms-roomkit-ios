@@ -10,6 +10,8 @@ import SwiftUI
 
 struct QuizVoteQuestionOptionView: View {
     @ObservedObject var model: PollVoteQuestionOptionViewModel
+    @EnvironmentObject var currentTheme: HMSUITheme
+    
     var body: some View {
         HStack {
             if model.isCorrect == true {
@@ -19,7 +21,7 @@ struct QuizVoteQuestionOptionView: View {
             
             if model.selected {
                 Spacer()
-                Text("Your Answer").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().body2Regular14)
+                Text(currentTheme.localized.yourAnswerTitle).foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().body2Regular14)
             }
         }
     }

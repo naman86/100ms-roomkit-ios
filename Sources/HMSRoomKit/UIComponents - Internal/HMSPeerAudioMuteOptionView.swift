@@ -13,6 +13,7 @@ import HMSRoomModels
 struct HMSPeerAudioMuteOptionView: View {
     
     @ObservedObject var regularAudioTrackModel: HMSTrackModel
+    @EnvironmentObject var currentTheme: HMSUITheme
 
     var body: some View {
         
@@ -20,7 +21,7 @@ struct HMSPeerAudioMuteOptionView: View {
             Image(assetName: "mic.slash")
                 .resizable()
                 .frame(width: 20, height: 20)
-            Text(regularAudioTrackModel.isMute ? "Request Unmute" : "Mute Audio")
+            Text(regularAudioTrackModel.isMute ? currentTheme.localized.requestUnmuteTitle : currentTheme.localized.muteAudioTitle)
             Spacer(minLength: 0)
         }
         .padding(.vertical, 16)

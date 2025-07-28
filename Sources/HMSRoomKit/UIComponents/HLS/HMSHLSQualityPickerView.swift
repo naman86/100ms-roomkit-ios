@@ -26,21 +26,21 @@ struct HMSHLSQualityPickerView: View {
     }
     
     @Environment(\.hlsPlaybackQuality) var hlsPlaybackQuality
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
     @Environment(\.dismiss) var dismiss
     
     let player: HMSHLSPlayer
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HMSOptionsHeaderView(title: "Quality") {
+            HMSOptionsHeaderView(title: currentTheme.localized.qualityTitle) {
                 dismiss()
             } onBack: {}
             
             VStack(alignment: .leading, spacing: 0) {
                 
                 HStack {
-                    Text(Quality.Auto.rawValue)
+                    Text(currentTheme.localized.qualityAutoTitle)
                         .foreground(.onSurfaceHigh)
                         .font(.subtitle2Semibold14)
                     
@@ -60,7 +60,7 @@ struct HMSHLSQualityPickerView: View {
                 }
                 
                 HStack {
-                    Text(Quality.High.rawValue)
+                    Text(currentTheme.localized.qualityHighTitle)
                         .foreground(.onSurfaceHigh)
                         .font(.subtitle2Semibold14)
                         
@@ -80,7 +80,7 @@ struct HMSHLSQualityPickerView: View {
                 }
                 
                 HStack {
-                    Text(Quality.Medium.rawValue)
+                    Text(currentTheme.localized.qualityMediumTitle)
                         .foreground(.onSurfaceHigh)
                         .font(.subtitle2Semibold14)
                         
@@ -100,7 +100,7 @@ struct HMSHLSQualityPickerView: View {
                 }
                 
                 HStack {
-                    Text(Quality.Low.rawValue)
+                    Text(currentTheme.localized.qualityLowTitle)
                         .foreground(.onSurfaceHigh)
                         .font(.subtitle2Semibold14)
                         

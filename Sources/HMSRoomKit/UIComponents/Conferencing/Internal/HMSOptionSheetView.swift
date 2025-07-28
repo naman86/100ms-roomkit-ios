@@ -49,7 +49,7 @@ struct HMSOptionSheetView: View {
         let isHandRaiseEnabled = conferenceComponentParam.isHandRaiseEnabled
         
         VStack(spacing: 0) {
-            HMSOptionsHeaderView(title: "Options", onClose: {
+            HMSOptionsHeaderView(title: theme.localized.optionsTitle, onClose: {
                 dismiss()
             })
             HStack {
@@ -58,7 +58,7 @@ struct HMSOptionSheetView: View {
                 LazyVGrid(columns: verticalSizeClass == .regular ? [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())] : [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]) {
                     
                     if isParticipantListEnabled {
-                        HMSSessionMenuButton(text: "Participants", image: "group", highlighted: false, badgeText: roomModel.viewerCountDisplayString).onTapGesture {
+                        HMSSessionMenuButton(text: theme.localized.participantsTitle, image: "group", highlighted: false, badgeText: roomModel.viewerCountDisplayString).onTapGesture {
                             internalSheet = .participants
                         }
                     }
@@ -67,12 +67,12 @@ struct HMSOptionSheetView: View {
                         HMSShareScreenButton(onTap: {
                             dismiss()
                         }) {
-                            HMSSessionMenuButton(text: localPeerModel.isSharingScreen ? "Stop Sharing Screen" : "Share Screen", image: "screenshare-icon", highlighted: localPeerModel.isSharingScreen)
+                            HMSSessionMenuButton(text: localPeerModel.isSharingScreen ? theme.localized.stopSharingScreenTitle : theme.localized.shareScreenTitle, image: "screenshare-icon", highlighted: localPeerModel.isSharingScreen)
                         }
                     }
                     
                     if isBrbEnabled {
-                        HMSSessionMenuButton(text: localPeerModel.status == .beRightBack ? "Cancel Be Right Back" : "Be Right Back", image: "brb-icon", highlighted: localPeerModel.status == .beRightBack)
+                        HMSSessionMenuButton(text: localPeerModel.status == .beRightBack ? theme.localized.cancelBeRightBackTitle : theme.localized.beRightBackTitle, image: "brb-icon", highlighted: localPeerModel.status == .beRightBack)
                             .onTapGesture {
                                 Task {
                                     try await
@@ -83,7 +83,7 @@ struct HMSOptionSheetView: View {
                     }
                     
                     if isHandRaiseEnabled {
-                        HMSSessionMenuButton(text: localPeerModel.status == .handRaised ? "Lower Hand" : "Raise Hand", image: "hand-raise-icon", highlighted: localPeerModel.status == .handRaised)
+                        HMSSessionMenuButton(text: localPeerModel.status == .handRaised ? theme.localized.lowerHandTitle : theme.localized.raiseHandTitle, image: "hand-raise-icon", highlighted: localPeerModel.status == .handRaised)
                             .onTapGesture {
                                 Task {
                                     try await roomModel.setUserStatus(localPeerModel.status == .handRaised ? .none : .handRaised)
@@ -93,7 +93,7 @@ struct HMSOptionSheetView: View {
                     }
                     
                     if roomModel.userCanStartStopRecording {
-                        HMSSessionMenuButton(text: roomModel.recordingState != .stopped ? "Recording On" : "Start Recording", image: "record-on", highlighted: roomModel.recordingState != .stopped, isDisabled: isHLSViewer)
+                        HMSSessionMenuButton(text: roomModel.recordingState != .stopped ? theme.localized.recordingOnTitle : theme.localized.startRecordingTitle, image: "record-on", highlighted: roomModel.recordingState != .stopped, isDisabled: isHLSViewer)
                             .onTapGesture {
                                 guard roomModel.recordingState == .stopped else {
                                     internalSheet = .stopRecording
@@ -109,7 +109,7 @@ struct HMSOptionSheetView: View {
                     
                     if ((roomModel.userRole?.permissions.pollWrite ?? false)) {
                         
-                        HMSSessionMenuButton(text: "Polls and Quizzes", image: "poll-vote", highlighted: pollsOptionAppearance.containsItems.wrappedValue, isDisabled: false)
+                        HMSSessionMenuButton(text: theme.localized.pollsAndQuizzesTitle, image: "poll-vote", highlighted: pollsOptionAppearance.containsItems.wrappedValue, isDisabled: false)
                             .onTapGesture {
                                 NotificationCenter.default.post(name: .init(rawValue: "poll-create"), object: nil)
                                 
@@ -123,7 +123,7 @@ struct HMSOptionSheetView: View {
                         
                         if pollsOptionAppearance.containsItems.wrappedValue {
                             
-                            HMSSessionMenuButton(text: "Polls and Quizzes", image: "poll-vote", highlighted: true, isDisabled: false)
+                            HMSSessionMenuButton(text: theme.localized.pollsAndQuizzesTitle, image: "poll-vote", highlighted: true, isDisabled: false)
                                 .onTapGesture {
                                     NotificationCenter.default.post(name: .init(rawValue: "poll-view"), object: nil)
                                     
@@ -135,7 +135,7 @@ struct HMSOptionSheetView: View {
                     }
                     
                     if roomModel.localAudioTrackModel != nil, roomModel.isNoiseCancellationAvailable, roomModel.userCanUseNoiseCancellation {
-                        HMSSessionMenuButton(text: roomModel.isNoiseCancellationEnabled ? "Noise Reduced" : "Reduce Noise", image: "noise-cancellation", highlighted: (roomModel.isNoiseCancellationEnabled))
+                        HMSSessionMenuButton(text: roomModel.isNoiseCancellationEnabled ? theme.localized.noiseReducedTitle : theme.localized.reduceNoiseTitle, image: "noise-cancellation", highlighted: (roomModel.isNoiseCancellationEnabled))
                             .onTapGesture {
                                 try? roomModel.toggleNoiseCancellation()
                                 dismiss()
@@ -143,13 +143,13 @@ struct HMSOptionSheetView: View {
                     }
                     
                     if roomModel.isWhiteboardAvailable && (roomModel.userWhiteboardPermission?.admin ?? false) {
-                        HMSSessionMenuButton(text: roomModel.whiteboard != nil ? "Close Whiteboard" : "Open Whiteboard", image: "whiteboard-icon", highlighted: false, isDisabled: roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer)
+                        HMSSessionMenuButton(text: roomModel.whiteboard != nil ? theme.localized.closeWhiteboardTitle : theme.localized.openWhiteboardTitle, image: "whiteboard-icon", highlighted: false, isDisabled: roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer)
                             .onTapGesture {
                                 
                                 guard !(roomModel.whiteboard != nil && roomModel.whiteboard?.owner != localPeerModel.peer) else { return }
                                 
                                 if roomModel.peersSharingScreen.count > 0 {
-                                    roomKitModel.addNotification(HMSRoomKitNotification(id: "", type: .warning(icon: "whiteboard-icon"), actor: "", isDismissible: true, title: "Discontinue screenshare to open the whiteboard"))
+                                    roomKitModel.addNotification(HMSRoomKitNotification(id: "", type: .warning(icon: "whiteboard-icon"), actor: "", isDismissible: true, title: theme.localized.discontinueSSWhiteboardTitle))
                                     
                                     dismiss()
                                 }
@@ -174,7 +174,7 @@ struct HMSOptionSheetView: View {
                             || (roomModel.userTranscriptionPermissions.permissionWith(mode: HMSTranscriptionMode.caption)?.admin ?? false)
                         ) {
                         
-                        HMSSessionMenuButton(text: "Closed Captions", image: captionsState.wrappedValue == .visible ? "captions-highlighted" : "captions-icon", highlighted: captionsState.wrappedValue == .visible)
+                        HMSSessionMenuButton(text: theme.localized.closedCaptionsTitle, image: captionsState.wrappedValue == .visible ? "captions-highlighted" : "captions-icon", highlighted: captionsState.wrappedValue == .visible)
                             .onTapGesture {
                                 if (roomModel.userTranscriptionPermissions.permissionWith(mode: HMSTranscriptionMode.caption)?.admin ?? false) {
                                     internalSheet = .closedCaption
@@ -185,13 +185,13 @@ struct HMSOptionSheetView: View {
                             }
                     }
                     
-                    if let localVideoTrackModel = roomModel.localVideoTrackModel {
-                        HMSSessionMenuButton(text: "Virtual Background", image: "virtual-background", highlighted: roomModel.isVirtualBackgroundEnabled, isDisabled: localVideoTrackModel.isMute)
-                            .onTapGesture {
-                                guard !localVideoTrackModel.isMute else { return }
-                                internalSheet = .virtualBackground
-                            }
-                    }
+//                    if let localVideoTrackModel = roomModel.localVideoTrackModel {
+//                        HMSSessionMenuButton(text: theme.localized.virtualBGTitle, image: "virtual-background", highlighted: roomModel.isVirtualBackgroundEnabled, isDisabled: localVideoTrackModel.isMute)
+//                            .onTapGesture {
+//                                guard !localVideoTrackModel.isMute else { return }
+//                                internalSheet = .virtualBackground
+//                            }
+//                    }
                 }
                 .padding(.bottom)
             }

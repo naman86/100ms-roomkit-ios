@@ -14,7 +14,8 @@ import HMSRoomModels
 struct HMSChatMessageView: View {
     
     @Environment(\.chatScreenAppearance) var chatScreenAppearance
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var theme: HMSUITheme
     
@@ -65,15 +66,16 @@ struct HMSChatMessageView: View {
 //                            .shadow(color: isPartOfTransparentChat ? .black : .clear, radius: 3, y: 1)
                     }
                     
+                    let toTitle = currentTheme.localized.toTitle.lowercased()
                     if messageModel.recipient.type == .peer, let peerParticipant = messageModel.recipient.peerRecipient {
-                        Text("to \(peerParticipant.isLocal ? "You" : peerParticipant.name) (DM)")
+                        Text("\(toTitle) \(peerParticipant.isLocal ? currentTheme.localized.you : peerParticipant.name) (\(currentTheme.localized.dmTitle))")
                             .lineLimit(1)
                             .font(.captionRegular12)
                             .foreground(.onSurfaceMedium)
                     }
                     else if messageModel.recipient.type == .roles, let firstRoleRecipient = messageModel.recipient.rolesRecipient?.first {
                         
-                        Text("to \(firstRoleRecipient.name) (Group)")
+                        Text("\(toTitle) \(firstRoleRecipient.name) (\(currentTheme.localized.groupTitle)")
                             .foreground(.onSurfaceMedium)
                             .font(.captionRegular12)
                             .lineLimit(1)

@@ -12,7 +12,8 @@ struct PollResultsView: View {
     @EnvironmentObject var roomModel: HMSRoomModel
     @ObservedObject var model: PollLeaderboardViewModel
     @Environment(\.presentationMode) var presentationMode
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     var body: some View {
         VStack(alignment: .trailing, spacing: 0) {
             Spacer(minLength: 24)
@@ -32,14 +33,14 @@ struct PollResultsView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     if let summary = model.summary {
-                        Text("Participation Summary").foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
+                        Text(currentTheme.localized.participationSummaryTitle).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
                         PollSummaryView(model: summary).padding(.bottom, 8)
                     }
                     
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Leaderboard").foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
-                            Text("Based on score and time taken to cast the correct answer").foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular)
+                            Text(currentTheme.localized.leaderboardTitle).foregroundColor(HMSUIColorTheme().onSurfaceHigh).font(HMSUIFontTheme().subtitle2Semibold14)
+                            Text(currentTheme.localized.castAnswerMessage).foregroundColor(HMSUIColorTheme().onSurfaceMedium).font(HMSUIFontTheme().captionRegular)
                         }
                         Spacer()
                     }
@@ -56,20 +57,23 @@ struct PollResultsView: View {
                                         PollLeaderboardDetailView(model: model)
                                     } label: {
                                         HStack {
-                                            Text("View All").font(.body2Regular14).foreground(.onSurfaceHigh)
+                                            Text(currentTheme.localized.viewAllTitle).font(.body2Regular14).foreground(.onSurfaceHigh)
                                             Image(assetName: "back").foreground(.onSurfaceHigh)
                                                 .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                                         }
                                     }
                                 }.padding(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                                    .environmentObject(currentTheme)
                             }
                         }
+                        .environmentObject(currentTheme)
                         .background(HMSUIColorTheme().surfaceDefault)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                 }
             }
         }
+        .environmentObject(currentTheme)
         .padding(.horizontal, 24)
         .background(HMSUIColorTheme().surfaceDim)
         .navigationBarHidden(true)

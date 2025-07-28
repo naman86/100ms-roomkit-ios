@@ -49,7 +49,8 @@ class PollListModel: ObservableObject, Identifiable, Hashable {
 
 struct PollListEntryView: View {
    @ObservedObject var model: PollListModel
-   
+    @EnvironmentObject var currentTheme: HMSUITheme
+
    var body: some View {
        HStack(alignment: .top) {
            Text(model.title).font(HMSUIFontTheme().subtitle1)
@@ -57,7 +58,7 @@ struct PollListEntryView: View {
            Spacer()
            VStack(alignment: .trailing, spacing: 16) {
                PollStateBadgeView(pollState: model.state, endDate: model.endDate)
-               Button("View") {
+               Button(currentTheme.localized.view) {
                    
                }.buttonStyle(ActionButtonStyle()).allowsHitTesting(false)
            }.frame(width: 89)

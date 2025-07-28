@@ -11,6 +11,7 @@ import HMSSDK
 
 struct PollCreateView: View {
     @ObservedObject var model: PollCreateModel
+    @EnvironmentObject var currentTheme: HMSUITheme
 
     init(model: PollCreateModel) {
         self.model = model
@@ -28,7 +29,7 @@ struct PollCreateView: View {
                     } label: {
                         Label("", systemImage: "chevron.left").foregroundColor(HMSUIColorTheme().onPrimaryHigh)
                     }
-                    Text("Poll/Quiz").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
+                    Text("\(currentTheme.localized.pollStr)/\((currentTheme.localized.quizStr))").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
                     Spacer().frame(height: 16)
                     Button {
                         presentationMode.wrappedValue.dismiss()
@@ -42,13 +43,13 @@ struct PollCreateView: View {
                         Spacer().frame(height: 16)
                         if model.canCreatePolls {
                             Group {
-                                Text("Select the type you want to continue with").foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular)
+                                Text(currentTheme.localized.selectTypeTitle).foregroundColor(HMSUIColorTheme().onPrimaryMedium).font(HMSUIFontTheme().captionRegular)
                                 Spacer().frame(height: 16)
                                 HStack(spacing: 16) {
-                                    PollTypeButton(text: "Poll", icon: "chart.bar.fill", selected: model.selectedCategory == .poll) {
+                                    PollTypeButton(text: currentTheme.localized.pollStr, icon: "chart.bar.fill", selected: model.selectedCategory == .poll) {
                                         model.selectedCategory = .poll
                                     }
-                                    PollTypeButton(text: "Quiz", icon: "questionmark.circle", selected: model.selectedCategory == .quiz) {
+                                    PollTypeButton(text: currentTheme.localized.quizStr, icon: "questionmark.circle", selected: model.selectedCategory == .quiz) {
                                         model.selectedCategory = .quiz
                                     }
                                 }
@@ -56,14 +57,14 @@ struct PollCreateView: View {
                             }
                             
                             Group {
-                                Text("Name this \(model.selectedCategory == .poll ? "poll" : "quiz")").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().body2Regular14)
+                                Text("\(currentTheme.localized.nameThisTitle) \(model.selectedCategory == .poll ? currentTheme.localized.pollStr : currentTheme.localized.quizStr)").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().body2Regular14)
                                 Spacer().frame(height: 8)
-                                PollTextField(placeholder: "My \(model.selectedCategory == .poll ? "Poll" : "Quiz")", text: $model.pollTitle, valid: model.valid)
+                                PollTextField(placeholder: "\(currentTheme.localized.my) \(model.selectedCategory == .poll ? currentTheme.localized.pollStr : currentTheme.localized.quizStr)", text: $model.pollTitle, valid: model.valid)
                                 Spacer().frame(height: 24)
                             }
                             
                             Group {
-                                SwitchView(text: "Hide vote count", isOn: $model.hideVotes)
+                                SwitchView(text: currentTheme.localized.hideVoteCountTitle, isOn: $model.hideVotes)
                                 Spacer().frame(height: 24)
                             }
                             
@@ -77,7 +78,7 @@ struct PollCreateView: View {
                                     EmptyView()
                                 }
                                 
-                                Button("Create \(model.selectedCategory == .poll ? "Poll" : "Quiz")") {
+                                Button("\(currentTheme.localized.createTitle) \(model.selectedCategory == .poll ? currentTheme.localized.pollStr : currentTheme.localized.quizStr)") {
                                     model.createPoll()
                                 }.buttonStyle(ActionButtonStyle())
                                 
@@ -87,7 +88,7 @@ struct PollCreateView: View {
                         
                         if !model.currentPolls.isEmpty {
                             VStack(alignment: .leading, spacing: 24) {
-                                Text("Previous Polls/Quizzes").foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
+                                Text(currentTheme.localized.previousTitle).foregroundColor(HMSUIColorTheme().onPrimaryHigh).font(HMSUIFontTheme().heading6Semibold20)
                                 ForEach(model.currentPolls) { pollListModel in
                                     NavigationLink() {
                                         if pollListModel.state == .created, let createModel = pollListModel.createModel {

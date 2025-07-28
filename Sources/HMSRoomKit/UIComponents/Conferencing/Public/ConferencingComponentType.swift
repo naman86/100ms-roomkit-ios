@@ -8,6 +8,7 @@
 
 import Foundation
 import HMSSDK
+import SwiftUI
 
 extension HMSConferenceScreen {
     
@@ -52,13 +53,15 @@ extension HMSConferenceScreen {
                 case open
                 case close
             }
-            
+            @EnvironmentObject var currentTheme: HMSUITheme
+
+
             // chat states
             public var initialState: InitialState = .close
             public var isOverlay: Bool = false
             public var allowsPinningMessages: Bool = true
-            public var title: String = "Live chat"
-            public var messagePlaceholder: String = "Send a message"
+            public var title: String = ""
+            public var messagePlaceholder: String = ""
             
             // chat controls
             public enum Scope: Equatable {
@@ -86,15 +89,15 @@ extension HMSConferenceScreen {
             public init(initialState: InitialState = .close,
                         isOverlay: Bool = false,
                         allowsPinningMessages: Bool = true,
-                        title: String = "Live chat",
-                        messagePlaceholder: String = "Send a message",
+                        title: String,
+                        messagePlaceholder: String,
                         chatScopes: [Scope] = [.public, .private],
                         controls: Controls? = .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)) {
                 self.initialState = initialState
                 self.isOverlay = isOverlay
                 self.allowsPinningMessages = allowsPinningMessages
-                self.title = title
-                self.messagePlaceholder = messagePlaceholder
+                self.title = title.isEmpty ? currentTheme.localized.liveChatTitle : title
+                self.messagePlaceholder = messagePlaceholder.isEmpty ? currentTheme.localized.sendMessageTitle : messagePlaceholder
                 self.chatScopes = chatScopes
                 self.controls = controls ?? .init(canDisableChat: false, canBlockUser: false, canHideMessage: false)
             }

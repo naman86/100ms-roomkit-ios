@@ -129,7 +129,7 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
                         
                         if !(chatScopes.count == 1 && chatScopes.contains(.public)) {
                             HStack {
-                                Text("To")
+                                Text(currentTheme.localized.toTitle)
                                     .foreground(.onSurfaceMedium)
                                     .font(.captionRegular12)
                                 HMSRolePicker(recipient: $recipient)
@@ -141,7 +141,7 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
                             
                             HStack {
                                 Spacer()
-                                Text("You’ve been blocked from sending messages")
+                                Text(currentTheme.localized.blockedFromSendingMessageTitle)
                                     .foreground(.onSurfaceMedium)
                                     .font(.body2Regular14)
                                 Spacer()
@@ -176,7 +176,7 @@ public struct HMSChatScreen<Content, ContentV>: View where Content : View, Conte
                 HStack(spacing: 8) {
                     HStack {
                         Spacer()
-                        Text("Chat disabled.")
+                        Text(currentTheme.localized.chatDisabledTitle)
                             .foreground(.onSurfaceMedium)
                             .font(.body2Regular14)
                         Spacer()

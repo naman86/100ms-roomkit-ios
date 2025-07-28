@@ -19,7 +19,8 @@ struct HMSPrebuiltConferenceView: View {
     static let hlsCueDuration = 20
     
     @Environment(\.pollsOptionAppearance) var pollsOptionAppearance
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     @EnvironmentObject var roomModel: HMSRoomModel
     @EnvironmentObject var roomInfoModel: HMSRoomInfoModel
     @StateObject var roomKitModel = HMSRoomNotificationModel()
@@ -204,7 +205,7 @@ struct HMSPrebuiltConferenceView: View {
                 if newCaptionState != prevCaptionState {
                     
                     if newCaptionState.state == .started {
-                        let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "captions-highlighted"), actor: "", isDismissible: false, title: "Closed Captioning enabled for everyone")
+                        let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "captions-highlighted"), actor: "", isDismissible: false, title: currentTheme.localized.closedCaptioningEnabled)
                         roomKitModel.addNotification(note)
                         Task {
                             try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
@@ -212,7 +213,7 @@ struct HMSPrebuiltConferenceView: View {
                         }
                     }
                     else if newCaptionState.state == .stopped {
-                        let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "captions-icon"), actor: "", isDismissible: false, title: "Closed Captioning disabled for everyone")
+                        let note = HMSRoomKitNotification(id: UUID().uuidString, type: .closedCaptionStatus(icon: "captions-icon"), actor: "", isDismissible: false, title: currentTheme.localized.closedCaptioningDisabled)
                         roomKitModel.addNotification(note)
                         Task {
                             try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
@@ -322,7 +323,7 @@ struct HMSPrebuiltConferenceView: View {
         pollsOptionAppearance.containsItems.wrappedValue = !currentPolls.isEmpty || !stoppedPolls.isEmpty
 
         for newPoll in newPolls {
-            let notification = HMSRoomKitNotification(id: newPoll.pollID, type: .poll(type: newPoll.category), actor: newPoll.createdBy?.name ?? "", isDismissible: true, title: "\(newPoll.createdBy?.name ?? "") started a new \(newPoll.category == .poll ? "poll": "quiz")")
+            let notification = HMSRoomKitNotification(id: newPoll.pollID, type: .poll(type: newPoll.category), actor: newPoll.createdBy?.name ?? "", isDismissible: true, title: "\(newPoll.createdBy?.name ?? "") \(currentTheme.localized.pollNewTitle) \(newPoll.category == .poll ? currentTheme.localized.pollStr: currentTheme.localized.quizStr)")
             roomKitModel.addNotification(notification)
             
             pollsOptionAppearance.badgeState.wrappedValue = .badged

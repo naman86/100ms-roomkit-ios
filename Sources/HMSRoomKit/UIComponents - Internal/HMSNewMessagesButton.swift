@@ -9,9 +9,11 @@
 import SwiftUI
 
 struct HMSNewMessagesButton: View {
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     var body: some View {
         HStack(spacing: 0) {
-            Text("New messages")
+            Text(currentTheme.localized.newMessagesTitle)
                 .font(.captionSemibold12)
                 .foreground(.onSecondaryHigh)
                 .padding(.horizontal, 8)

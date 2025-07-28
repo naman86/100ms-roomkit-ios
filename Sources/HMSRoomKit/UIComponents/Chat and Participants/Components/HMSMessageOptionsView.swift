@@ -34,7 +34,7 @@ struct HMSMessageOptionsView: View {
         VStack(alignment: .leading, spacing: 0) {
             
             HStack {
-                Text("Message Options")
+                Text(currentTheme.localized.messageOptionsTitle)
                     .foreground(.onSurfaceHigh)
                     .font(.subtitle2Semibold16)
                 
@@ -55,7 +55,7 @@ struct HMSMessageOptionsView: View {
                     HStack {
                         Image(assetName: "person-plus")
                             .frame(width: 20, height: 20)
-                        Text("Message privately")
+                        Text(currentTheme.localized.messagePrivatelyTitle)
                             .font(.subtitle2Semibold14)
                         
                         Spacer()
@@ -75,13 +75,13 @@ struct HMSMessageOptionsView: View {
                     if roomModel.pinnedMessages.contains(where: {$0.id == messageModel.messageID}) {
                         Image(assetName: "unpin")
                             .frame(width: 20, height: 20)
-                        Text("Unpin")
+                        Text(currentTheme.localized.unpinTitle)
                             .font(.subtitle2Semibold14)
                     }
                     else {
                         Image(assetName: "pin")
                             .frame(width: 20, height: 20)
-                        Text("Pin")
+                        Text(currentTheme.localized.pinTitle)
                             .font(.subtitle2Semibold14)
                     }
                     
@@ -103,7 +103,7 @@ struct HMSMessageOptionsView: View {
 
             HStack {
                 Image(assetName: "copy").frame(width: 20, height: 20)
-                Text("Copy Text").font(.subtitle2Semibold14)
+                Text(currentTheme.localized.copyTextTitle).font(.subtitle2Semibold14)
                 
                 Spacer()
             }
@@ -118,7 +118,7 @@ struct HMSMessageOptionsView: View {
                 HStack {
                     Image(assetName: "eye-crossed")
                         .frame(width: 20, height: 20)
-                    Text("Hide for everyone")
+                    Text(currentTheme.localized.hideMessagesTitle)
                         .font(.subtitle2Semibold14)
                     
                     Spacer()
@@ -135,7 +135,7 @@ struct HMSMessageOptionsView: View {
                 HStack {
                     Image(assetName: "circle-minus")
                         .frame(width: 20, height: 20)
-                    Text("Block from Chat")
+                    Text(currentTheme.localized.chatBlockTitle)
                         .font(.subtitle2Semibold14)
                     
                     Spacer()
@@ -156,7 +156,7 @@ struct HMSMessageOptionsView: View {
                 HMSPeerLoaderView(peerId: sender.peerID) { peer in
                     HStack {
                         Image(assetName: "peer-remove")
-                        Text("Remove Participant").font(.subtitle2Semibold14)
+                        Text(currentTheme.localized.removeParticipant).font(.subtitle2Semibold14)
                         Spacer(minLength: 0)
                     }
                     .foreground(.errorDefault)

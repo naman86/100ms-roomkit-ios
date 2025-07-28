@@ -10,6 +10,7 @@ import SwiftUI
 
 struct PollOptionView: View {
     @ObservedObject var model: QuestionOptionCreateModel
+    @EnvironmentObject var currentTheme: HMSUITheme
 
     var body: some View {
         HStack(spacing: 0) {
@@ -22,7 +23,7 @@ struct PollOptionView: View {
                 Spacer(minLength: 5)
             }
             
-            PollTextField(placeholder: "Option \(model.index)", text: $model.text, valid: model.valid)
+            PollTextField(placeholder: "\(currentTheme.localized.optionTitle) \(model.index)", text: $model.text, valid: model.valid)
         }
     }
 }

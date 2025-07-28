@@ -8,9 +8,13 @@
 
 import Foundation
 import HMSSDK
+import SwiftUI
 
 class QuestionCreateModel: ObservableObject, Identifiable {
-    internal init(pollModel: PollCreateModel, index: Int, count: Int, showAnswerSelection: Bool, saved: Bool, onSave: @escaping ((QuestionCreateModel)->Void), onDelete: @escaping ((QuestionCreateModel)->Void)) {
+    @EnvironmentObject var currentTheme: HMSUITheme
+
+    internal init(pollModel: PollCreateModel, index: Int, count: Int, showAnswerSelection: Bool, saved: Bool, 
+                  currentTheme: HMSUITheme, onSave: @escaping ((QuestionCreateModel)->Void), onDelete: @escaping ((QuestionCreateModel)->Void)) {
         self.index = index
         self.count = count
         self.showAnswerSelection = showAnswerSelection
@@ -19,11 +23,14 @@ class QuestionCreateModel: ObservableObject, Identifiable {
         self.onSave = onSave
         self.onDelete = onDelete
         self.saved = saved
+        self.options =  [HMSPollQuestionType.singleChoice, HMSPollQuestionType.multipleChoice].map({ $0.toDisplayString(currentTheme: currentTheme) })
+        self.selectedOption = HMSPollQuestionType.singleChoice.toDisplayString(currentTheme: currentTheme)
         addOption()
         addOption()
     }
     
-    internal init(pollModel: PollCreateModel, index: Int, count: Int, question: HMSPollQuestion, saved: Bool, onSave: @escaping ((QuestionCreateModel)->Void), onDelete: @escaping ((QuestionCreateModel)->Void)) {
+    internal init(pollModel: PollCreateModel, index: Int, count: Int, question: HMSPollQuestion, saved: Bool,
+                  currentTheme: HMSUITheme, onSave: @escaping ((QuestionCreateModel)->Void), onDelete: @escaping ((QuestionCreateModel)->Void)) {
         self.index = index
         self.count = count
         self.showAnswerSelection = pollModel.createdPoll?.category == .quiz
@@ -35,7 +42,8 @@ class QuestionCreateModel: ObservableObject, Identifiable {
         self.editing = false
         self.text = question.text
         self.type = question.type
-        self.selectedOption = question.type.toDisplayString()
+        self.selectedOption = question.type.toDisplayString(currentTheme: currentTheme)
+        self.options =  [HMSPollQuestionType.singleChoice, HMSPollQuestionType.multipleChoice].map({ $0.toDisplayString(currentTheme: currentTheme) })
         
         populateOptions(from: question.options, answer: question.answer)
     }
@@ -55,8 +63,8 @@ class QuestionCreateModel: ObservableObject, Identifiable {
     @Published var index: Int = 1
     @Published var count: Int = 1
     @Published var type: HMSPollQuestionType = .singleChoice
-    @Published var options = [HMSPollQuestionType.singleChoice, HMSPollQuestionType.multipleChoice].map({ $0.toDisplayString() })
-    @Published var selectedOption = HMSPollQuestionType.singleChoice.toDisplayString() {
+    @Published var options: [String] = []
+    @Published var selectedOption: String {
         didSet {
             updateOptionType()
         }
@@ -67,7 +75,7 @@ class QuestionCreateModel: ObservableObject, Identifiable {
     
     func updateOptionType() {
         for questionType in HMSPollQuestionType.allCases {
-            if questionType.toDisplayString() == selectedOption {
+            if questionType.toDisplayString(currentTheme: currentTheme) == selectedOption {
                 self.type = questionType
             }
         }

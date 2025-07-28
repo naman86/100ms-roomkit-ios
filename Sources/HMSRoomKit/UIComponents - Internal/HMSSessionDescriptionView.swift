@@ -31,7 +31,7 @@ struct HMSConferenceDescriptionView: View {
                             .foreground(.onSecondaryHigh)
                     }
                     HStack {
-                        Text("\(roomModel.viewerCountDisplayString) watching")
+                        Text("\(roomModel.viewerCountDisplayString) \(currentTheme.localized.watchingTitle)")
                             .lineLimit(1)
                             .font(.captionRegular12)
                             .foreground(.onSurfaceMedium)
@@ -40,14 +40,14 @@ struct HMSConferenceDescriptionView: View {
                             Text("•")
                                 .font(.body2Regular14)
                                 .foreground(.onSurfaceMedium)
-                            Text("Started \(streamStartedText) ago")
+                            Text("\(currentTheme.localized.startedTitle) \(streamStartedText) \(currentTheme.localized.agoTitle)")
                                 .lineLimit(1)
                                 .font(.captionRegular12)
                                 .foreground(.onSurfaceMedium)
                                 .layoutPriority(1)
                         }
                         if !isExpanded && conferenceComponentParam.header?.description != nil {
-                            Text("...more")
+                            Text(currentTheme.localized.moreTitle)
                                 .lineLimit(1)
                                 .font(.captionSemibold12)
                                 .foreground(.onSurfaceHigh)
@@ -58,7 +58,7 @@ struct HMSConferenceDescriptionView: View {
                             Text("•")
                                 .font(.body2Regular14)
                                 .foreground(.onSurfaceMedium)
-                            Text("Recording")
+                            Text(currentTheme.localized.recordingTitle)
                                 .lineLimit(1)
                                 .truncationMode(.tail)
                                 .font(.captionRegular12)

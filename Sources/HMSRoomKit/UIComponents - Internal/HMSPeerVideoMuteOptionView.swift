@@ -12,14 +12,15 @@ import HMSRoomModels
 
 struct HMSPeerVideoMuteOptionView: View {
     @ObservedObject var regularVideoTrackModel: HMSTrackModel
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     var body: some View {
         
         HStack {
             Image(assetName: "video")
                 .resizable()
                 .frame(width: 20, height: 20)
-            Text(regularVideoTrackModel.isMute ? "Unmute Video" : "Mute Video")
+            Text(regularVideoTrackModel.isMute ? currentTheme.localized.unmuteVideoTitle : currentTheme.localized.muteVideoTitle)
             Spacer(minLength: 0)
         }
         .padding(.vertical, 16)

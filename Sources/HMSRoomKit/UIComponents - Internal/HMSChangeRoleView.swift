@@ -23,7 +23,7 @@ struct HMSChangeRoleView: View {
         let candidateRoles = roomModel.roles.filter{$0.name != roleName}
         
         VStack(spacing: 0) {
-            HMSOptionsHeaderView(title: "Switch Role", subtitle: "Switch the role of '\(peerModel.name)' from '\(roleName)' to") {
+            HMSOptionsHeaderView(title: currentTheme.localized.switchRole, subtitle: "\(currentTheme.localized.switchRoleMessage) '\(peerModel.name)' \(currentTheme.localized.from) '\(roleName)' \(currentTheme.localized.toTitle.lowercased())") {
                 presentationMode.wrappedValue.dismiss()
             } onBack: {}
             VStack(spacing: 16) {
@@ -43,7 +43,7 @@ struct HMSChangeRoleView: View {
                     .colorScheme(.dark)
                     .background(.surfaceDefault, cornerRadius: 8)
                 }
-                Text("Switch Role")
+                Text(currentTheme.localized.switchRole)
                     .font(.body1Semibold16)
                     .foreground(.onPrimaryHigh)
                     .padding(.vertical, 12)

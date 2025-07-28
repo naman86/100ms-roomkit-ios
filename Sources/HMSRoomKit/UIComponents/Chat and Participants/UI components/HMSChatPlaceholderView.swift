@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct HMSChatPlaceholderView: View {
-    
+    @EnvironmentObject var currentTheme: HMSUITheme
+
     var body: some View {
         VStack(alignment: .center, spacing: 8) {
             Image(assetName: "chat-placeholder")
@@ -17,10 +18,10 @@ struct HMSChatPlaceholderView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .minimumScaleFactor(0.5)
-            Text("Start a conversation")
+            Text(currentTheme.localized.startConversationTitle)
                 .font(.heading6Semibold20)
                 .foreground(.onSurfaceHigh)
-            Text("There are no messages here yet. Start a conversation by sending a message.")
+            Text(currentTheme.localized.noMessageErrorTitle)
                 .lineLimit(nil)
                 .fixedSize(horizontal: false, vertical: true)
                 .multilineTextAlignment(.center)
