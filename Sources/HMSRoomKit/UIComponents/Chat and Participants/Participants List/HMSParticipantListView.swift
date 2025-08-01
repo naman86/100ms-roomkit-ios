@@ -97,13 +97,8 @@ class PeerViewModel: ObservableObject, Identifiable {
 class HMSParticipantListViewModel {
     @EnvironmentObject static var currentTheme: HMSUITheme
 
-    static let commonSortOrderMap = [handRaisedSectionName.lowercased(), "host", "guest", "teacher", "student", "viewer"].enumerated().reduce(into: [String: Int]()) {
-        $0[$1.1] = $1.0
-    }
-
-    static let handRaisedSectionName = currentTheme.localized.handRaisedTitle
-    
-    static func makeDynamicSectionedPeers(from peers: [HMSPeerModel], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeDynamicSectionedPeers(from peers: [HMSPeerModel], searchQuery: String,
+                                          handRaisedSectionName: String) -> [PeerSectionViewModel] {
 
         let handRaisedSection = PeerSectionViewModel(name: handRaisedSectionName)
         let roleSectionMap = [handRaisedSectionName: handRaisedSection]
@@ -130,10 +125,13 @@ class HMSParticipantListViewModel {
         return Array(roleSectionMap.values).filter { $0.count > 0 }
     }
     
-    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel, peerListIterators: [HMSPeerListIteratorModel], searchQuery: String) -> [PeerSectionViewModel] {
-        let dynamicSections = makeDynamicSectionedPeers(from: roomModel.remotePeersWithRaisedHand, searchQuery: searchQuery)
+    static func makeSections(from roomModel: HMSRoomModel, infoModel: HMSRoomInfoModel,
+                             peerListIterators:  [HMSPeerListIteratorModel], searchQuery: String,
+                             handRaisedSectionName: String) -> [PeerSectionViewModel] {
+        let dynamicSections = makeDynamicSectionedPeers(from: roomModel.remotePeersWithRaisedHand, searchQuery: searchQuery, handRaisedSectionName: handRaisedSectionName)
         
-        let regularSections = makeSectionedPeers(from: roomModel.peerModels, roles: roomModel.roles, offStageRoles: roomModel.isLarge ? infoModel.offStageRoles : [], searchQuery: searchQuery)
+        let regularSections = makeSectionedPeers(from: roomModel.peerModels, roles: roomModel.roles, offStageRoles: roomModel.isLarge ? infoModel.offStageRoles : [], searchQuery: searchQuery,
+            handRaisedSectionName: handRaisedSectionName)
         
         let iteratorSections = makeIteratorSections(peerListIterators: peerListIterators, searchQuery: searchQuery)
         
@@ -160,8 +158,7 @@ class HMSParticipantListViewModel {
         #endif
     }
     
-    
-    static func makeSectionedPeers(from peers: [HMSPeerModel], roles: [HMSRole], offStageRoles: [String], searchQuery: String) -> [PeerSectionViewModel] {
+    static func makeSectionedPeers(from peers: [HMSPeerModel], roles: [HMSRole], offStageRoles: [String], searchQuery: String, handRaisedSectionName: String) -> [PeerSectionViewModel] {
         
         let roleSectionMap = roles.reduce(into: [String: PeerSectionViewModel]()) {
             let newSection = PeerSectionViewModel(name: $1.name)
@@ -186,6 +183,10 @@ class HMSParticipantListViewModel {
             value.peers.last?.isLast = true
         }
         
+        let commonSortOrderMap = [handRaisedSectionName.lowercased(), "host", "guest", "teacher", "student", "viewer"].enumerated().reduce(into: [String: Int]()) {
+            $0[$1.1] = $1.0
+        }
+
         return Array(roleSectionMap.values).filter { $0.count > 0 && !offStageRoles.contains($0.name) }
             .sorted {
                 let firstOrder = commonSortOrderMap[$0.name.lowercased()] ?? Int.max
@@ -286,7 +287,8 @@ struct HMSParticipantListView: View {
             HStack(spacing: 8) {
                 HMSSearchField(searchText: $searchText, placeholder: currentTheme.localized.searchForParticipantsTitle)
             }
-            let sections = HMSParticipantListViewModel.makeSections(from: roomModel, infoModel: roomInfoModel, peerListIterators: peerListIterators, searchQuery: searchText)
+            let sections = HMSParticipantListViewModel.makeSections(from: roomModel, infoModel: roomInfoModel, peerListIterators: peerListIterators, searchQuery: searchText,
+                handRaisedSectionName: currentTheme.localized.handRaisedTitle)
             ZStack {
                 ScrollView {
                     LazyVStack(spacing: 0) {
@@ -592,6 +594,6 @@ extension HMSPeerModel {
             }
         }
 
-        return HMSPeerOptionsViewContext(isPresented: isPresented, action: menuAction, name: name + (isLocal ? " (\(currentTheme.localized.you)" : ""), role: role?.name.capitalized ?? "", actions: actions)
+        return HMSPeerOptionsViewContext(isPresented: isPresented, action: menuAction, name: name + (isLocal ? " (\(currentTheme.localized.you))" : ""), role: role?.name.capitalized ?? "", actions: actions)
     }
 }

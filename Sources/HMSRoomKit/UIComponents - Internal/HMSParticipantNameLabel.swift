@@ -16,7 +16,7 @@ struct HMSParticipantNameLabel: View {
     @EnvironmentObject var currentTheme: HMSUITheme
 
     var body: some View {
-        let name = peerModel.isLocal ? peerModel.name + " (\(currentTheme.localized.you)" : peerModel.name
+        let name = peerModel.isLocal ? peerModel.name + " (\(currentTheme.localized.you))" : peerModel.name
         HMSParticipantNameLabelView(name: name, wifiStrength: peerModel.displayQuality, isSIP: peerModel.type == .sip)
     }
 }
